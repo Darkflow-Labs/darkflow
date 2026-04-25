@@ -1,20 +1,24 @@
 "use client";
 
-import { ReactNode } from "react";
+import { Button as ButtonPrimitive } from "@base-ui/react/button";
 
-interface ButtonProps {
-  children: ReactNode;
-  className?: string;
-  appName: string;
-}
+import { buttonVariants, type ButtonVariantProps } from "./button-variants";
+import { cn } from "./utils";
 
-export const Button = ({ children, className, appName }: ButtonProps) => {
+const Button = ({
+  className,
+  variant = "default",
+  size = "default",
+  ...props
+}: ButtonPrimitive.Props & ButtonVariantProps) => {
   return (
-    <button
-      className={className}
-      onClick={() => alert(`Hello from your ${appName} app!`)}
-    >
-      {children}
-    </button>
+    <ButtonPrimitive
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
   );
 };
+
+export { Button };
+export type { ButtonVariantProps } from "./button-variants";
