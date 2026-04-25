@@ -82,13 +82,13 @@ const BentoSection = () => {
           id="desk-heading"
           className="font-heading text-center text-2xl font-semibold tracking-tight sm:text-3xl"
         >
-          Chart, chat, and tape—one screen
+          Learn the market with one clear workspace
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-muted-foreground sm:text-base">
-          Darkflow is laid out like the terminals you already trade from: a
-          thread for orders and research beside your chart and context, plus a
-          tape and scanner rail so prints, liquidity, and headlines stay in view
-          while you size and manage risk—without bouncing between tabs.
+          Darkflow keeps your chart, watchlist signals, and assistant thread in
+          one place so you can focus on the setup in front of you. If you are
+          still learning, it helps you read price action step by step without
+          jumping between tabs.
         </p>
 
         <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-6 md:grid-rows-2">
@@ -105,19 +105,20 @@ const BentoSection = () => {
                   Research thread
                 </CardTitle>
                 <p className="font-mono text-[11px] text-muted-foreground">
-                  plain-language asks · levels &amp; context · keyboard shortcuts
+                  plain-language questions · key levels · guided checks
                 </p>
               </CardHeader>
               <CardContent className="flex min-h-0 flex-1 flex-col gap-3 pt-0">
                 <p className="shrink-0 text-sm leading-relaxed text-muted-foreground">
-                  Ask for VWAP and opening range, a quick news pass, or a second opinion
-                  on size before you send. The thread sits beside chart and tape so you
-                  are not flipping tabs while the book is moving.
+                  Ask simple questions like where support and resistance are,
+                  whether momentum is building, or what to confirm before you
+                  enter. The thread stays next to your chart so your process is
+                  easier to follow, especially during fast moves.
                 </p>
                 <ResearchThreadMock />
                 <div className="shrink-0 rounded-lg border border-border/50 bg-background/40 p-3 font-mono text-sm leading-relaxed text-foreground/90">
-                  &gt; This symbol: mark session high and VWAP, recap prints since the
-                  open, and list what I&apos;d verify before adding size.
+                  &gt; For this symbol: show key levels, explain the current trend,
+                  and list 3 checks I should make before entering a trade.
                 </div>
               </CardContent>
             </Card>
@@ -136,8 +137,9 @@ const BentoSection = () => {
                   Chart &amp; context dock
                 </CardTitle>
                 <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                  The price chart and context dock stay pinned beside the thread so
-                  you&apos;re never guessing which window had the truth last.
+                  Your chart and context stay pinned beside the thread, so you
+                  can learn from one consistent view instead of hunting across
+                  multiple windows.
                 </p>
               </CardHeader>
               <CardContent className="flex-1 p-3 pt-0">
@@ -159,14 +161,15 @@ const BentoSection = () => {
                   Signals &amp; desk rails
                 </CardTitle>
                 <p className="font-mono text-[11px] text-muted-foreground">
-                  scanners · tape column · hub layout
+                  scanner highlights · tape feed · focused layout
                 </p>
               </CardHeader>
               <CardContent className="space-y-2 pt-0">
                 <DeskRailsSvg />
                 <p className="text-center text-xs leading-relaxed text-muted-foreground">
-                  Built for traders who want Bloomberg-grade density without giving up
-                  a modern, keyboard-first layout—everything stays in one flow state.
+                  See what matters in real time with a cleaner layout: signals,
+                  price updates, and context in one flow built for confident
+                  decision-making at any experience level.
                 </p>
               </CardContent>
             </Card>

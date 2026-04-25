@@ -1,159 +1,104 @@
-# Turborepo starter
+# Darkflow Monorepo
 
-This Turborepo starter is maintained by the Turborepo core team.
+Darkflow is a Turborepo monorepo with multiple Next.js apps and shared internal packages.
 
-## Using this example
+## Workspace Overview
 
-Run the following command:
+### Apps
 
-```sh
-npx create-turbo@latest
-```
+- `apps/df-client` - Darkflow trading/client interface (Next.js, React 19, assistant-ui, React Query)
+- `apps/homebase` - marketing/homebase experience (Next.js)
+- `apps/web` - general web app shell (Next.js)
+- `apps/docs` - documentation app (Next.js)
 
-## What's inside?
+### Packages
 
-This Turborepo includes the following packages/apps:
+- `packages/ui` (`@repo/ui`) - shared UI primitives/components and design tokens (`darkflow-tokens.css`)
+- `packages/eslint-config` (`@repo/eslint-config`) - shared ESLint presets
+- `packages/typescript-config` (`@repo/typescript-config`) - shared TypeScript configuration
 
-### Apps and Packages
+## Tech Stack
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- [Turborepo](https://turborepo.com/)
+- [Next.js](https://nextjs.org/) + [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS v4](https://tailwindcss.com/)
+- ESLint + Prettier
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Requirements
 
-### Utilities
+- Node.js `>=18`
+- npm `10+` (repo uses `npm@10.9.0`)
 
-This Turborepo has some additional tools already setup for you:
+## Getting Started
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+Install dependencies from repo root:
 
 ```sh
-cd my-turborepo
-turbo build
+npm install
 ```
 
-Without global `turbo`, use your package manager:
+Start all workspace dev processes:
 
 ```sh
-cd my-turborepo
-npx turbo build
-npm dlx turbo build
-npm exec turbo build
+npm run dev
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+## Useful Commands
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+Run from repo root:
 
 ```sh
-turbo build --filter=docs
+# Build all apps/packages
+npm run build
+
+# Lint all workspaces
+npm run lint
+
+# Type-check all workspaces
+npm run check-types
+
+# Format TS/TSX/MD files
+npm run format
 ```
 
-Without global `turbo`:
+Run a command for one workspace with Turbo filters:
 
 ```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
+# Only run df-client dev
+npx turbo run dev --filter=./apps/df-client
+
+# Only run homebase dev
+npx turbo run dev --filter=./apps/homebase
+
+# Build docs only
+npx turbo run build --filter=./apps/docs
 ```
 
-### Develop
+## App Ports (default)
 
-To develop all apps and packages, run the following command:
+- `web`: `3000`
+- `docs`: `3001`
+- `homebase`: `3002`
+- `df-client`: Next.js default unless overridden (typically `3000` when run alone)
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+## Repository Structure
 
-```sh
-cd my-turborepo
-turbo dev
+```txt
+darkflow/
+  apps/
+    df-client/
+    docs/
+    homebase/
+    web/
+  packages/
+    eslint-config/
+    typescript-config/
+    ui/
+  turbo.json
 ```
 
-Without global `turbo`, use your package manager:
+## Notes
 
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+- Task orchestration and caching are configured in `turbo.json`.
+- Shared theme tokens used by Darkflow UI live in `packages/ui/darkflow-tokens.css`.
