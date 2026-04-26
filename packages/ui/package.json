@@ -18,6 +18,7 @@
     "./scroll-area": "./src/scroll-area.tsx",
     "./collapsible": "./src/collapsible.tsx",
     "./avatar": "./src/avatar.tsx",
+    "./auth-sign-in-screen": "./src/auth-sign-in-screen.tsx",
     "./darkflow-tokens.css": "./darkflow-tokens.css"
   },
   "scripts": {

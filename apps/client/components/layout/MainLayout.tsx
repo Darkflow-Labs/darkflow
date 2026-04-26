@@ -2,12 +2,15 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { DeskCenter } from "@/components/layout/DeskCenter";
 import { ContextDock } from "@/components/context/ContextDock";
 import { SignalsColumn } from "@/components/signals/SignalsColumn";
 import { useTerminal } from "@/components/layout/TerminalState";
+import { authClient } from "@darkflow/auth/client";
+import { Avatar, AvatarFallback, AvatarImage } from "@darkflow/ui/avatar";
 import { Badge } from "@darkflow/ui/badge";
 import { Button } from "@darkflow/ui/button";
 import {
@@ -42,8 +45,11 @@ const bootItem = {
 };
 
 export const MainLayout = () => {
+  const router = useRouter();
   const { selectedSymbol, orderFlash } = useTerminal();
   const [signalsOpen, setSignalsOpen] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const { data: session } = authClient.useSession();
 
   const { data: chartPoints = [] } = useQuery({
     queryKey: queryKeys.chart(selectedSymbol),
@@ -56,6 +62,28 @@ export const MainLayout = () => {
     queryFn: fetchTrades,
     refetchInterval: 2000,
   });
+
+  const handleSignOut = async () => {
+    setIsSigningOut(true);
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/sign-in");
+        },
+      },
+    });
+    setIsSigningOut(false);
+  };
+
+  const displayName = session?.user?.name?.trim() || "Trader";
+  const emailHandle = session?.user?.email?.split("@")[0];
+  const userLabel = emailHandle || displayName;
+  const initials = userLabel
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
@@ -93,17 +121,43 @@ export const MainLayout = () => {
             </TooltipContent>
           </Tooltip>
         </div>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="h-7 rounded-sm border-border-subtle px-2 font-mono text-[10px] uppercase lg:hidden"
-          onClick={() => setSignalsOpen(true)}
-          aria-label="Open signals"
-        >
-          <Menu className="size-3.5" />
-          Signals
-        </Button>
+        <div className="flex items-center gap-1.5 md:gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-7 rounded-sm border-border-subtle px-2 font-mono text-[10px] uppercase lg:hidden"
+            onClick={() => setSignalsOpen(true)}
+            aria-label="Open signals"
+          >
+            <Menu className="size-3.5" />
+            Signals
+          </Button>
+
+          {session?.user ? (
+            <div className="hidden items-center gap-2 rounded-sm border border-border-subtle bg-muted/30 px-2 py-1 lg:flex">
+              <Avatar size="sm">
+                <AvatarImage src={session.user.image ?? undefined} alt={displayName} />
+                <AvatarFallback>{initials || "TR"}</AvatarFallback>
+              </Avatar>
+              <div className="flex max-w-28 flex-col">
+                <p className="truncate font-mono text-[10px] text-foreground uppercase">{displayName}</p>
+                <p className="truncate text-[10px] text-muted-foreground">{session.user.email}</p>
+              </div>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                className="h-7 w-7"
+                onClick={handleSignOut}
+                disabled={isSigningOut}
+                aria-label="Sign out"
+              >
+                <LogOut className="size-3.5" />
+              </Button>
+            </div>
+          ) : null}
+        </div>
       </motion.header>
 
       <AnimatePresence mode="wait">

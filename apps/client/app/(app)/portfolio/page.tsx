@@ -17,7 +17,7 @@ export default function PortfolioPage() {
         <div className="flex min-w-0 items-center gap-1.5 md:gap-2">
           <h1 className="font-semibold text-foreground text-xs tracking-tight md:text-sm">
             darkflow.
-          </h1> 
+          </h1>
           <Badge
             variant="outline"
             className="rounded-sm border-border-subtle px-1 py-0 font-mono text-[8px] text-muted-foreground uppercase leading-none md:text-[9px]"
