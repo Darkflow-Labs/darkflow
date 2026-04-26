@@ -7,10 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
-        "postinstall": "prisma generate"
-    },
-    "prisma": {
-        "schema": "../../packages/database/prisma/schema.prisma"
+        "postinstall": "prisma generate --schema=../../packages/database/prisma/schema.prisma"
     },
     "dependencies": {
         "@darkflow/db": "*",
