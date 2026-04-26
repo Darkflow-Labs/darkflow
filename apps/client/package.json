@@ -11,7 +11,7 @@
     },
     "prisma": {
         "schema": "../../packages/database/prisma/schema.prisma"
-    }
+    },
     "dependencies": {
         "@darkflow/db": "*",
         "@darkflow/auth": "*",
