@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "tw-shimmer";
+@import "@darkflow/ui/darkflow-tokens.css";
+
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+
+.darkflow-ambient {
+  position: relative;
+  z-index: 0;
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+.darkflow-ambient::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 90% 60% at 85% 8%,
+      rgba(168, 85, 247, 0.08),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 12% 92%,
+      rgba(192, 132, 252, 0.06),
+      transparent 52%
+    ),
+    radial-gradient(circle at 50% 50%, #080808 0%, #050505 70%);
+}
+
+.darkflow-ambient::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: repeating-linear-gradient(
+    -12deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.03) 3px,
+    rgba(255, 255, 255, 0.03) 4px
+  );
+}
+
+.darkflow-ambient > * {
+  position: relative;
+  z-index: 1;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+@layer utilities {
+  .tabular-data {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@keyframes df-terminal-caret {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.df-terminal-caret {
+  animation: df-terminal-caret 1.05s steps(1, end) infinite;
+}
+
+[data-slot="aui_composer-shell"].aui-composer-shell-terminal {
+  position: relative;
+}
+
+[data-slot="aui_composer-shell"].aui-composer-shell-terminal::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.45rem;
+  bottom: 2.15rem;
+  width: 1px;
+  background: rgba(168, 85, 247, 0.7);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-slot="aui_composer-shell"].aui-composer-shell-terminal:focus-within::before {
+  opacity: 1;
+  animation: df-terminal-caret 1.05s steps(1, end) infinite;
+}

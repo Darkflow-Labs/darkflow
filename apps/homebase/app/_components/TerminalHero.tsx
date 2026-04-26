@@ -141,7 +141,7 @@ const TerminalHero = () => {
           </p>
           <h1
             id="hero-heading"
-            className="font-heading text-balance text-6xl font-extrabold leading-[1.02] tracking-tighter text-foreground sm:text-5xl md:text-6xl"
+            className="font-heading text-balance text-6xl font-extrabold leading-[1.02] tracking-tighter text-foreground sm:text-5xl md:text-[52px]"
           >
             <span className="block">
               Stop herding{" "}

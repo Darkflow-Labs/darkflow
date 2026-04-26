@@ -13,7 +13,7 @@ Darkflow is a Turborepo monorepo with multiple Next.js apps and shared internal 
 
 ### Packages
 
-- `packages/ui` (`@repo/ui`) - shared UI primitives/components and design tokens (`darkflow-tokens.css`)
+- `packages/ui` (`@darkflow/ui`) - shared UI primitives/components and design tokens (`darkflow-tokens.css`)
 - `packages/eslint-config` (`@repo/eslint-config`) - shared ESLint presets
 - `packages/typescript-config` (`@repo/typescript-config`) - shared TypeScript configuration
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@repo/ui/utils";
+import { cn } from "@darkflow/ui/utils";
 
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 

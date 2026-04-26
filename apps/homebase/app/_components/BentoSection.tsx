@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@darkflow/ui/card";
 
 import { TapeMarquee } from "./TapeMarquee";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";

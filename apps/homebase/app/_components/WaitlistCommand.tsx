@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useId, useState } from "react";
-import { Button } from "@repo/ui/button";
-import { buttonVariants } from "@repo/ui/button-variants";
-import { Input } from "@repo/ui/input";
-import { cn } from "@repo/ui/utils";
+import { Button } from "@darkflow/ui/button";
+import { buttonVariants } from "@darkflow/ui/button-variants";
+import { Input } from "@darkflow/ui/input";
+import { cn } from "@darkflow/ui/utils";
 
 const STORAGE_KEY = "homebase_terminal_id";
 const STORAGE_EMAIL = "homebase_waitlist_email";

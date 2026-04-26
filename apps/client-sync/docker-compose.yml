@@ -1,0 +1,55 @@
+services:
+  upstream-db:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: zero
+      POSTGRES_PASSWORD: pass
+    ports:
+      - 5432:5432
+    command: postgres -c wal_level=logical
+    healthcheck:
+      test: pg_isready
+      interval: 10s
+ 
+  your-api:
+    build: ./your-api
+    ports:
+      - 3000:3000
+    environment:
+      # Your API handles mutations and writes to the PG db
+      # Use a pooler (e.g. pgbouncer) in production
+      # ZERO_UPSTREAM_DB: postgres://postgres:pass@upstream-db:5432/zero
+    depends_on:
+      upstream-db:
+        condition: service_healthy
+ 
+  zero-cache:
+    image: rocicorp/zero:1.3.0
+    ports:
+      - 4848:4848
+    environment:
+      # Used for replication from postgres
+      # This *must* be a direct connection (not via pgbouncer)
+      # ZERO_UPSTREAM_DB: postgres://postgres:pass@upstream-db:5432/zero
+      # Used for storing client view records
+      # Use a pooler (e.g. pgbouncer) in production
+      # ZERO_CVR_DB: postgres://postgres:pass@upstream-db:5432/zero
+      # Used for storing recent replication log entries
+      # Use a pooler in production
+      # ZERO_CHANGE_DB: postgres://postgres:pass@upstream-db:5432/zero
+      # Path to the SQLite replica
+      ZERO_REPLICA_FILE: /data/zero.db
+      # Password used to access the inspector and /statz
+      # ZERO_ADMIN_PASSWORD: pickanewpassword
+      # URLs for your API's query and mutate endpoints
+      ZERO_QUERY_URL: https://darkflow-app.vercel.app/api/sync/client/query
+      ZERO_MUTATE_URL: https://darkflow-app.vercel.app/api/sync/client/mutate
+    volumes:
+      # Disk for the SQLite replica should be high IOPS
+      - zero-cache-data:/data
+    depends_on:
+      your-api:
+        condition: service_started
+    healthcheck:
+      test: curl -f http://localhost:4848/keepalive
+      interval: 5s

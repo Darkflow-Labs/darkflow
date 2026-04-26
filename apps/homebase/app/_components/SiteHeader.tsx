@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { buttonVariants } from "@repo/ui/button-variants";
-import { cn } from "@repo/ui/utils";
+import { buttonVariants } from "@darkflow/ui/button-variants";
+import { cn } from "@darkflow/ui/utils";
 
 const SiteHeader = () => {
   return (
