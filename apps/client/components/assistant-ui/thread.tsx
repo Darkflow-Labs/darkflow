@@ -123,7 +123,7 @@ const ThreadWelcome: FC = () => {
             </span>
           </div>
           <p className="aui-thread-welcome-message-inner fade-in slide-in-from-bottom-1 max-w-prose animate-in fill-mode-both text-muted-foreground text-sm delay-75 duration-200 md:text-[15px] md:leading-snug">
-            Command the desk: queries stream back as structured terminal output — tape and
+            Command the console: queries stream back as structured terminal output — tape and
             intel on the left, chart and quick execution track the active symbol on the
             right.
           </p>
@@ -205,7 +205,7 @@ const Composer: FC = () => {
         <ComposerAttachments />
         <ComposerPrimitive.Input
           id={COMPOSER_INPUT_ID}
-          placeholder="Message the desk… (type / for commands)"
+          placeholder="Message the console… (type / for commands)"
           className="aui-composer-input max-h-32 min-h-10 w-full resize-none bg-transparent px-1.75 py-1 ps-2.5 font-sans text-sm outline-none placeholder:text-muted-foreground/80"
           rows={1}
           autoFocus

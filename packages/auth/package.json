@@ -9,6 +9,7 @@
     },
     "dependencies": {
         "@darkflow/db": "*",
+        "autumn-js": "^1.2.18",
         "better-auth": "^1.6.9",
         "pg": "^8.20.0"
     },

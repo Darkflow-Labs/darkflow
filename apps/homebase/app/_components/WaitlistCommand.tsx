@@ -26,7 +26,7 @@ const hashCredentialToTerminalId = async (value: string): Promise<string> => {
 };
 
 const buildShareText = (siteUrl: string) =>
-  `Getting on the list for Darkflow — conversational trading desk + AI copilot. Join me: ${siteUrl}`;
+  `Getting on the list for Darkflow — conversational trading console + AI copilot. Join me: ${siteUrl}`;
 
 const WaitlistCommand = () => {
   const fieldId = useId();
@@ -83,7 +83,7 @@ const WaitlistCommand = () => {
     <div id="waitlist" className="mx-auto mt-8 max-w-4xl px-6 pb-6">
       <div className="hb-glass rounded-xl p-5 sm:p-6">
         <p className="mb-3 font-mono text-[10px] font-medium tracking-wide text-muted-foreground uppercase sm:text-[11px]">
-          [DESK]: EARLY_ACCESS_WAITLIST
+          [CONSOLE]: EARLY_ACCESS_WAITLIST
         </p>
         <p className="mb-4 text-sm text-muted-foreground">
           Reserve a seat for the chat-native trading hub—no wallet required to sign

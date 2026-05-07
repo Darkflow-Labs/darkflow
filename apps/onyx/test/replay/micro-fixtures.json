@@ -1,0 +1,45 @@
+[
+  {
+    "type": "launch",
+    "timestamp": 1714301000000,
+    "tokenMint": "3mWwscV7xqMbrz39tU3wBZW7nx9Q9RkEWot6f3H4s2kT",
+    "creator": "8R1P9k9MyGjBq5oB6zD9MsWCD2aSZdWQ6qVJ7WPRmYHk",
+    "signature": "2R1sY4JKhQfGWk2H15r4VCUQ5R4XzjYhCXBEhWfvc3H5QkbWE2oJD9z7GQAbdvH2a9QvQJ8h1nU6hN9m82v6vLU",
+    "slot": 257001900
+  },
+  {
+    "type": "price",
+    "timestamp": 1714301001500,
+    "tokenMint": "3mWwscV7xqMbrz39tU3wBZW7nx9Q9RkEWot6f3H4s2kT",
+    "priceSol": 0.00000020,
+    "source": "drpc-primary"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714301003000,
+    "tokenMint": "3mWwscV7xqMbrz39tU3wBZW7nx9Q9RkEWot6f3H4s2kT",
+    "priceSol": 0.00000024,
+    "source": "drpc-primary"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714301004500,
+    "tokenMint": "3mWwscV7xqMbrz39tU3wBZW7nx9Q9RkEWot6f3H4s2kT",
+    "priceSol": 0.00000023,
+    "source": "external-confirmation"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714301007000,
+    "tokenMint": "3mWwscV7xqMbrz39tU3wBZW7nx9Q9RkEWot6f3H4s2kT",
+    "priceSol": 0.00000026,
+    "source": "drpc-primary"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714301013000,
+    "tokenMint": "3mWwscV7xqMbrz39tU3wBZW7nx9Q9RkEWot6f3H4s2kT",
+    "priceSol": 0.00000021,
+    "source": "drpc-primary"
+  }
+]

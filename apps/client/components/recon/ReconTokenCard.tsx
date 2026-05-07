@@ -126,7 +126,7 @@ export const ReconTokenCard = ({ token, index }: ReconTokenCardProps) => {
 
           {token.venue ? (
             <p className="mt-1.5 font-mono text-[9px] text-muted-foreground uppercase">
-              Desk · <span className="text-primary">{token.venue}</span>
+              Console · <span className="text-primary">{token.venue}</span>
             </p>
           ) : null}
 
@@ -155,7 +155,7 @@ export const ReconTokenCard = ({ token, index }: ReconTokenCardProps) => {
               size="sm"
               variant="ghost"
               className="size-7 shrink-0 rounded-sm p-0 text-muted-foreground"
-              aria-label="Sim ping desk"
+              aria-label="Sim ping console"
             >
               <Send className="size-3.5" />
             </Button>

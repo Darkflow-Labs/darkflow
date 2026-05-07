@@ -1,0 +1,11 @@
+{
+  "name": "@darkflow/bedrock",
+  "version": "0.0.1-alpha",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bedrock:preflight": "bash ./scripts/preflight.sh",
+    "bedrock:start:testnet": "BEDROCK_ENV_FILE=./config/rpc.testnet.env bash ./scripts/start-rpc.sh",
+    "bedrock:start:mainnet": "BEDROCK_ENV_FILE=./config/rpc.mainnet.env bash ./scripts/start-rpc.sh"
+  }
+}

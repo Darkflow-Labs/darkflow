@@ -1,0 +1,21 @@
+{
+  "name": "@darkflow/guardian",
+  "version": "0.0.1-alpha",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@unkey/api": "^2.3.3",
+    "@unkey/cache": "^1.5.0",
+    "autumn-js": "^1.2.18"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0",
+    "typescript": "^5.9.2"
+  }
+}

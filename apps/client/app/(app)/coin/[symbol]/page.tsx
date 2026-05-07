@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Badge } from "@darkflow/ui/badge";
 import { CoinDetailFullView } from "@/components/coin/CoinDetailFullView";
 
-const CoinDeskPageBody = () => {
+const CoinConsolePageBody = () => {
   const params = useParams();
   const searchParams = useSearchParams();
   const raw = params?.symbol;
@@ -25,7 +25,7 @@ const CoinDeskPageBody = () => {
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <motion.header
-        id="desk-app-header"
+        id="console-app-header"
         initial={{ opacity: 0, y: -3 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 420, damping: 32 }}
@@ -48,7 +48,7 @@ const CoinDeskPageBody = () => {
   );
 };
 
-export default function CoinDeskPage() {
+export default function CoinConsolePage() {
   return (
     <Suspense
       fallback={
@@ -57,7 +57,7 @@ export default function CoinDeskPage() {
         </div>
       }
     >
-      <CoinDeskPageBody />
+      <CoinConsolePageBody />
     </Suspense>
   );
 }

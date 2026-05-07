@@ -120,7 +120,7 @@ export const PortfolioAnalyzerView = () => {
               </Badge>
             </div>
             <p className="mt-0.5 max-w-xl text-muted-foreground text-xs leading-snug md:text-[13px]">
-              Paper desk: realized vs open risk, lane activity, and settlement log — not a custodial
+              Paper console: realized vs open risk, lane activity, and settlement log — not a custodial
               wallet.
             </p>
           </div>
@@ -209,7 +209,7 @@ export const PortfolioAnalyzerView = () => {
 
           <div className="w-full shrink-0">
             <HeatmapCalendar
-              title="Desk fills"
+              title="Console fills"
               data={heatmapData}
               endDate={heatmapEndDate}
               rangeDays={365}
@@ -323,7 +323,7 @@ export const PortfolioAnalyzerView = () => {
 
       <Panel
         title="Settlement log"
-        subtitle="Mock fills · desk only"
+        subtitle="Mock fills · console only"
         className="relative z-[1] min-h-[12rem]"
         expandBody
       >

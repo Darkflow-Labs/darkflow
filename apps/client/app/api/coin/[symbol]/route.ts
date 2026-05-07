@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCoinInsights } from "@/lib/data/coinInsightsMock";
+import { getLatestSolSyncPrice } from "@/lib/sync/latestPrice";
 
 type RouteParams = { params: Promise<{ symbol: string }> };
 
@@ -12,5 +13,11 @@ export const GET = async (req: Request, { params }: RouteParams) => {
   const { searchParams } = new URL(req.url);
   const label = searchParams.get("label")?.trim() || null;
   const insights = getCoinInsights(symbol, label, Date.now());
+  if (symbol === "SOL") {
+    const latestSol = await getLatestSolSyncPrice();
+    if (latestSol !== null) {
+      insights.priceUsd = latestSol;
+    }
+  }
   return NextResponse.json(insights);
 };

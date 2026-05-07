@@ -8,7 +8,7 @@ export default function PortfolioPage() {
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <motion.header
-        id="desk-app-header"
+        id="console-app-header"
         initial={{ opacity: 0, y: -3 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 420, damping: 32 }}

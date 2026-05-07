@@ -15,7 +15,7 @@ type AuthSignInScreenProps = {
 const valuePoints = [
   {
     title: "Everything in one place",
-    description: "See your market data, portfolio, and tools together in one workspace.",
+    description: "See your market data, portfolio, and tools together in one console.",
     icon: TrendingUp,
   },
   {
@@ -49,13 +49,13 @@ export const AuthSignInScreen = ({
       <div className="flex flex-col justify-center gap-6">
         <div className="space-y-3">
           <p className="font-mono text-[11px] text-muted-foreground uppercase tracking-[0.2em]">
-            darkflow // crypto terminal
+            darkflow // crypto console
           </p>
           <h1 className="max-w-xl font-semibold text-3xl text-foreground tracking-tight md:text-5xl">
             Trade faster with darkflow.
           </h1>
           <p className="max-w-xl text-base text-muted-foreground md:text-lg">
-            Sign in to access your market workspace, portfolio analytics, and real-time intel streams.
+            Sign in to access your trading console, portfolio analytics, and real-time intel streams.
           </p>
         </div>
 
@@ -77,7 +77,7 @@ export const AuthSignInScreen = ({
         <CardHeader className="space-y-2">
           <CardTitle className="font-semibold text-xl">Sign in with Discord</CardTitle>
           <CardDescription>
-            Use your Discord account to securely access your Darkflow workspace.
+            Use your Discord account to securely access your Darkflow console.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

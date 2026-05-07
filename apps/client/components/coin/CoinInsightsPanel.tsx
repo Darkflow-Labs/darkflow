@@ -82,7 +82,7 @@ const CoinInsightsBody = ({
       >
         <div className="min-w-0">
           <p className="font-mono text-[8px] text-muted-foreground uppercase tracking-[0.2em]">
-            Coin desk
+            Coin console
           </p>
           <h2 className="truncate font-semibold text-foreground text-sm leading-tight">
             {data?.displayName ?? symbol}
@@ -131,7 +131,7 @@ const CoinInsightsBody = ({
             <p className="font-mono text-[10px] text-muted-foreground uppercase">Loading…</p>
           ) : null}
           {isError ? (
-            <p className="font-mono text-[10px] text-neon-down uppercase">Could not load desk</p>
+            <p className="font-mono text-[10px] text-neon-down uppercase">Could not load console</p>
           ) : null}
           {data ? (
             <>
@@ -219,7 +219,7 @@ const CoinInsightsBody = ({
                   id="ci-pos-heading"
                   className="font-mono text-[8px] text-muted-foreground uppercase tracking-wider"
                 >
-                  Your desk position
+                  Your console position
                 </p>
                 {data.userPosition ? (
                   <div className="mt-1.5 rounded-sm border border-primary/25 bg-primary/[0.05] p-2 font-mono text-[10px]">

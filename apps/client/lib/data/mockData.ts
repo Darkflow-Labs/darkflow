@@ -12,39 +12,11 @@ export type MockToken = {
 
 const BASE: MockToken[] = [
   {
-    symbol: "BONK",
-    basePrice: 0.000023,
-    volatility: 0.08,
-    reason: "High buy pressure on perps",
-    risk: "Medium",
-  },
-  {
-    symbol: "WIF",
-    basePrice: 1.85,
-    volatility: 0.05,
-    reason: "Meme rotation + elevated OI",
-    risk: "High",
-  },
-  {
-    symbol: "JUP",
-    basePrice: 0.62,
-    volatility: 0.03,
-    reason: "Router volume spike",
-    risk: "Low",
-  },
-  {
     symbol: "SOL",
     basePrice: 142.5,
     volatility: 0.02,
-    reason: "ETF narrative + strong bids",
-    risk: "Medium",
-  },
-  {
-    symbol: "RENDER",
-    basePrice: 4.2,
-    volatility: 0.06,
-    reason: "GPU demand + breakout retest",
-    risk: "High",
+    reason: "Primary supported adapter",
+    risk: "Low",
   },
 ];
 
@@ -67,7 +39,7 @@ const wobble = (symbol: string, t: number) => {
 
 export const getKnownSymbols = (): string[] => BASE.map((b) => b.symbol);
 
-/** Base price for symbols outside the mock desk list — keeps charts/insights coherent. */
+/** Base price for symbols outside the mock console list — keeps charts/insights coherent. */
 export const syntheticBaseFromHash = (upper: string): number => {
   const h = hashSeed(upper);
   const tier = h % 5;
@@ -171,25 +143,25 @@ const INTEL_TEMPLATES: Array<{
     kind: "ALERT",
     title: "Liquidation cluster",
     detail: (s, i) =>
-      `${s} perp: ${(1.2 + (i % 5) * 0.4).toFixed(1)}M notional swept in 90s (mock)`,
+      `${s} perp: ${(1.2 + (i % 5) * 0.4).toFixed(1)}M notional swept in 90s`,
   },
   {
     kind: "LAUNCH",
     title: "New pair detected",
     detail: (s, i) =>
-      `Router flagged ${s}/USDC pool depth +${(8 + (i % 20)).toFixed(0)}% (sim)`,
+      `Router flagged ${s}/USDC pool depth +${(8 + (i % 20)).toFixed(0)}%`,
   },
   {
     kind: "FLOW",
     title: "Wallet ping",
     detail: (s, i) =>
-      `0x${(hashSeed(s + String(i)) % 0xffff).toString(16)}… bought ${s} size ${(1.2 + (i % 5) * 0.3).toFixed(1)} (paper)`,
+      `0x${(hashSeed(s + String(i)) % 0xffff).toString(16)}… bought ${s} size ${(1.2 + (i % 5) * 0.3).toFixed(1)}`,
   },
   {
     kind: "FUNDING",
     title: "Funding flip",
     detail: (s, i) =>
-      `${s} 8h ${(i % 2 === 0 ? "+" : "-")}${(0.01 + (i % 7) * 0.004).toFixed(3)} vs basket (mock)`,
+      `${s} 8h ${(i % 2 === 0 ? "+" : "-")}${(0.01 + (i % 7) * 0.004).toFixed(3)} vs basket`,
   },
 ];
 
@@ -256,7 +228,7 @@ export const getExploreRows = (now = Date.now()): ExploreRow[] => {
     const buyRatio = 0.35 + ((h % 55) / 100) * 0.55;
     return {
       symbol: b.symbol,
-      name: `${b.symbol} desk`,
+      name: `${b.symbol} console`,
       mintShort: shortMint(b.symbol),
       createdSecAgo: age,
       liquidityUsd: liq,

@@ -52,7 +52,7 @@ export type PortfolioSnapshot = {
   summary: PortfolioSummary;
   /** Normalized 0–1 series for inline chart */
   pnlSeries: number[];
-  /** Daily desk activity counts for calendar heatmap */
+  /** Daily console activity counts for calendar heatmap */
   heatmapData: PortfolioHeatmapDatum[];
   positions: PortfolioPosition[];
   distribution: {

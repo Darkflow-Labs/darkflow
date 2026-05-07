@@ -1,0 +1,41 @@
+{
+  "name": "@darkflow/engine",
+  "version": "0.0.1-alpha",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core/index.ts",
+    "./config": "./src/config/index.ts",
+    "./solana": "./src/solana/index.ts",
+    "./solana/runtime": "./src/solana/runtime/index.ts",
+    "./solana/ingest": "./src/solana/ingest/priceStream.ts",
+    "./solana/adapters/pump": "./src/solana/adapters/pump/index.ts",
+    "./solana/connectors": "./src/solana/connectors/index.ts",
+    "./solana/connectors/grpc": "./src/solana/connectors/adapters/grpc/grpcSubscriber.ts",
+    "./solana/connectors/drpc": "./src/solana/connectors/adapters/drpc/drpcLogsSubscriber.ts",
+    "./market": "./src/market/index.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@darkflow/db": "*",
+    "@darkflow/sync": "*",
+    "@grpc/grpc-js": "^1.8.0",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
+    "@triton-one/yellowstone-grpc": "4.0.2",
+    "bs58": "^4.0.1",
+    "pino": "^9.7.0",
+    "redis": "^4.7.0",
+    "ws": "^8.18.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/bs58": "^4.0.4",
+    "@types/node": "^24.6.0",
+    "@types/ws": "^8.18.1",
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@darkflow/js-sync",
+  "version": "0.0.1-alpha",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./sync": "./src/sync/index.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "effect": ">=3.20.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "effect": "^3.21.2",
+    "typescript": "^5.9.2"
+  }
+}

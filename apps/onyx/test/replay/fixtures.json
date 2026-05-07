@@ -1,0 +1,59 @@
+[
+  {
+    "type": "launch",
+    "timestamp": 1714300000000,
+    "tokenMint": "BvWmN7UGR2qgc7inwV5tXiQ2L7YfZv1gJ7Nt6n4ks3iA",
+    "creator": "4sT2yLxzgFzQ2DoYQvGdJti5fUSesv1fREXZ8a4VhN2r",
+    "signature": "4Q6sJ3x8GQyRAnjV3M4FHZf7xK3kqv16yRtqxVjT2oNXQ4EfjYitJWdbfQEjGqH4sWe2AagM8dGfY5T7q1Xk6gY",
+    "slot": 257001000
+  },
+  {
+    "type": "price",
+    "timestamp": 1714300002000,
+    "tokenMint": "BvWmN7UGR2qgc7inwV5tXiQ2L7YfZv1gJ7Nt6n4ks3iA",
+    "priceSol": 0.00000043,
+    "source": "drpc-primary"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714300003500,
+    "tokenMint": "BvWmN7UGR2qgc7inwV5tXiQ2L7YfZv1gJ7Nt6n4ks3iA",
+    "priceSol": 0.00000048,
+    "source": "drpc-primary"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714300004200,
+    "tokenMint": "BvWmN7UGR2qgc7inwV5tXiQ2L7YfZv1gJ7Nt6n4ks3iA",
+    "priceSol": 0.00000047,
+    "source": "external-confirmation"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714300005000,
+    "tokenMint": "BvWmN7UGR2qgc7inwV5tXiQ2L7YfZv1gJ7Nt6n4ks3iA",
+    "priceSol": 0.00000052,
+    "source": "drpc-primary"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714300010000,
+    "tokenMint": "BvWmN7UGR2qgc7inwV5tXiQ2L7YfZv1gJ7Nt6n4ks3iA",
+    "priceSol": 0.00000041,
+    "source": "drpc-primary"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714300016000,
+    "tokenMint": "BvWmN7UGR2qgc7inwV5tXiQ2L7YfZv1gJ7Nt6n4ks3iA",
+    "priceSol": 0.00000040,
+    "source": "drpc-primary"
+  },
+  {
+    "type": "price",
+    "timestamp": 1714300028000,
+    "tokenMint": "BvWmN7UGR2qgc7inwV5tXiQ2L7YfZv1gJ7Nt6n4ks3iA",
+    "priceSol": 0.00000042,
+    "source": "drpc-primary"
+  }
+]

@@ -1,0 +1,18 @@
+[Unit]
+Description=Darkflow Bedrock RPC Node
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sol
+WorkingDirectory=/home/sol/darkflow/apps/bedrock
+Environment=BEDROCK_ENV_FILE=/home/sol/darkflow/apps/bedrock/config/rpc.mainnet.env
+ExecStart=/usr/bin/bash /home/sol/darkflow/apps/bedrock/scripts/start-rpc.sh
+Restart=always
+RestartSec=5
+LimitNOFILE=1000000
+LimitMEMLOCK=2000000000
+
+[Install]
+WantedBy=multi-user.target

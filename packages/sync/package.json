@@ -1,0 +1,43 @@
+{
+  "name": "@darkflow/sync",
+  "version": "0.0.1-alpha",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./zero-schema": "./src/zero/schema.ts",
+    "./queries": "./src/zero/queries.ts",
+    "./mutators": "./src/zero/mutators.ts",
+    "./db-provider": "./src/server/db-provider.ts",
+    "./preload": "./src/effect/preload.ts",
+    "./redis": "./src/redis/price-cache.ts",
+    "./pubsub": "./src/redis/tick-pubsub.ts",
+    "./writers": "./src/writers/market-writers.ts",
+    "./react": "./src/react/ZeroBootstrap.tsx"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@darkflow/db": "*",
+    "@rocicorp/zero": "^1.4.0",
+    "@upstash/redis": "^1.38.0",
+    "redis": "^4.7.0",
+    "effect": "^3.21.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "@types/react": "^19",
+    "typescript": "5.9.2"
+  },
+  "peerDependencies": {
+    "react": ">=19"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}

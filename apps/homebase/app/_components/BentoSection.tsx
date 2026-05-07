@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@darkflow/ui/card";
 import { TapeMarquee } from "./TapeMarquee";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
-const DeskRailsSvg = () => (
+const ConsoleRailsSvg = () => (
   <svg
     viewBox="0 0 200 100"
     className="h-20 w-full text-muted-foreground"
@@ -33,7 +33,7 @@ const ResearchThreadMock = () => (
   <div
     className="flex min-h-[168px] flex-1 flex-col rounded-lg border border-border/50 bg-background/35 p-3 sm:min-h-[188px]"
     role="img"
-    aria-label="Illustration of a research thread: sample questions and desk replies. Simulated, not live data."
+    aria-label="Illustration of a research thread: sample questions and console replies. Simulated, not live data."
   >
     <p className="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
       thread preview · simulated
@@ -46,7 +46,7 @@ const ResearchThreadMock = () => (
         </p>
       </div>
       <div className="rounded-md border border-primary/30 bg-primary/[0.06] px-2.5 py-2">
-        <p className="font-mono text-[10px] text-primary">Desk</p>
+        <p className="font-mono text-[10px] text-primary">Console</p>
         <p className="mt-0.5 text-left text-xs leading-snug text-foreground/85">
           ORH 412.80 · VWAP 411.06 · day open 410.22. Prints since the open stack
           above VWAP—size only if your risk still fits (simulated).
@@ -73,13 +73,13 @@ const BentoSection = () => {
 
   return (
     <section
-      id="desk"
+      id="console"
       className="border-t border-border/60 px-6 py-16 sm:py-20"
-      aria-labelledby="desk-heading"
+      aria-labelledby="console-heading"
     >
       <div className="mx-auto max-w-6xl">
         <h2
-          id="desk-heading"
+          id="console-heading"
           className="font-heading text-center text-2xl font-semibold tracking-tight sm:text-3xl"
         >
           Learn the market with one clear workspace
@@ -158,14 +158,14 @@ const BentoSection = () => {
             <Card className="hb-glass h-full border-border/60 bg-card/40">
               <CardHeader className="pb-2">
                 <CardTitle className="font-heading text-base">
-                  Signals &amp; desk rails
+                  Signals &amp; console rails
                 </CardTitle>
                 <p className="font-mono text-[11px] text-muted-foreground">
                   scanner highlights · tape feed · focused layout
                 </p>
               </CardHeader>
               <CardContent className="space-y-2 pt-0">
-                <DeskRailsSvg />
+                <ConsoleRailsSvg />
                 <p className="text-center text-xs leading-relaxed text-muted-foreground">
                   See what matters in real time with a cleaner layout: signals,
                   price updates, and context in one flow built for confident

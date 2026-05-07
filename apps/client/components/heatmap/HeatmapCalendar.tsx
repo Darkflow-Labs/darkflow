@@ -319,7 +319,7 @@ export function HeatmapCalendar({
     return (
       <div className="text-xs">
         <div className="font-medium">
-          {cell.value} desk {unit}
+          {cell.value} console {unit}
         </div>
         <div className="text-muted-foreground">{cell.label}</div>
       </div>

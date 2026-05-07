@@ -127,7 +127,7 @@ export const ReconBoard = () => {
           Recon mode
         </Badge>
         <span className="font-mono text-[10px] text-muted-foreground">
-          Turbo desk · mock lanes refresh on interval
+          Turbo console · mock lanes refresh on interval
         </span>
       </div>
 

@@ -5,18 +5,24 @@
     "scripts": {
         "db:generate": "prisma generate",
         "db:migrate": "prisma migrate dev",
-        "db:deploy": "prisma migrate deploy"
+        "db:deploy": "prisma migrate deploy",
+        "db:sync:generate": "drizzle-kit generate --config drizzle.sync.config.ts",
+        "db:sync:migrate": "drizzle-kit migrate --config drizzle.sync.config.ts",
+        "db:sync:studio": "drizzle-kit studio --config drizzle.sync.config.ts"
     },
     "exports": {
-        ".": "./src/index.ts"
+        ".": "./src/index.ts",
+        "./sync": "./src/sync/index.ts"
     },
     "dependencies": {
         "@prisma/adapter-pg": "^7.8.0",
         "@prisma/client": "^7.8.0",
         "dotenv": "^17.4.2",
+        "drizzle-orm": "^0.40.1",
         "pg": "^8.20.0"
     },
     "devDependencies": {
+        "drizzle-kit": "^0.30.6",
         "prisma": "^7.8.0"
     }
 }

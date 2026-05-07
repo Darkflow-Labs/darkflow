@@ -79,7 +79,7 @@ export const DeskShell = ({ children }: DeskShellProps) => {
 
   useLayoutEffect(() => {
     const measure = () => {
-      const el = document.getElementById("desk-app-header");
+      const el = document.getElementById("console-app-header");
       if (el) {
         setTopInset(el.getBoundingClientRect().bottom);
         return;
@@ -88,7 +88,7 @@ export const DeskShell = ({ children }: DeskShellProps) => {
     };
 
     measure();
-    const el = document.getElementById("desk-app-header");
+    const el = document.getElementById("console-app-header");
     const ro = new ResizeObserver(measure);
     if (el) ro.observe(el);
     window.addEventListener("resize", measure);
@@ -613,7 +613,7 @@ export const DeskShell = ({ children }: DeskShellProps) => {
                 variant="outline"
                 size="icon-sm"
                 className="h-9 w-9 touch-none rounded-full border-border-subtle bg-background/90 font-mono text-[10px] text-foreground uppercase shadow-[0_4px_22px_rgba(0,0,0,0.45)] backdrop-blur-md"
-                aria-label={`${selectedSymbol} coin desk toggle`}
+                aria-label={`${selectedSymbol} coin console toggle`}
               >
                 {selectedSymbol.slice(0, 3)}
               </Button>

@@ -1,0 +1,13 @@
+{
+  "jitoBundleOnly": true,
+  "maxExecutionRetries": 2,
+  "jitoMinSubmitIntervalMs": 1200,
+  "executionRequestTimeoutMs": 3500,
+  "executionConfirmTimeoutMs": 12000,
+  "executionConfirmPollMs": 200,
+  "jitoUseNativeBuilder": false,
+  "launchTxFetchTimeoutMs": 700,
+  "launchTxFetchConcurrency": 6,
+  "priceStaleTimeoutMs": 5000,
+  "drpcMaxDecodeQueueSize": 400
+}

@@ -16,6 +16,13 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Zero sync (local dev)
+
+Rocicorp Zero stays **off** until `NEXT_PUBLIC_ZERO_CACHE_URL` is set (e.g. WebSocket URL from `npx zero-cache-dev` targeting your Drizzle “sync” Postgres). Server routes need `SYNC_DATABASE_URL` or `ZERO_UPSTREAM_DATABASE_URL` for pushes (mutators).
+
+- Migrate the sync DB: from repo root, `npm run db:sync:migrate -w @darkflow/db` with `SYNC_DATABASE_URL` set.
+- Query/mutate API: `POST /api/zero/query`, `POST /api/zero/mutate` (Better Auth session required for mutate).
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

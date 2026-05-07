@@ -20,7 +20,7 @@ const fontMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Darkflow",
-  description: "Conversational crypto trading terminal",
+  description: "Conversational crypto trading console",
 };
 
 export default function RootLayout({

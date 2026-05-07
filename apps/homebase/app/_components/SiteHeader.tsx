@@ -18,13 +18,13 @@ const SiteHeader = () => {
           aria-label="Primary navigation"
         >
           <Link
-            href="#desk"
+            href="#console"
             className={cn(
               buttonVariants({ variant: "ghost", size: "sm" }),
               "font-mono text-[10px] uppercase tracking-wide sm:text-xs"
             )}
           >
-            DESK
+            CONSOLE
           </Link>
           <Link
             href="#waitlist"

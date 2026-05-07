@@ -2,10 +2,12 @@
 
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import { AutumnProvider } from "autumn-js/react";
 import { DarkflowAssistantRoot } from "@/components/chat/DarkflowAssistantRoot";
 import { DeskShell } from "@/components/layout/DeskShell";
 import { TerminalStateProvider } from "@/components/layout/TerminalState";
 import { QueryProvider } from "@/components/providers/QueryProvider";
+import { ZeroSyncProvider } from "@/components/providers/ZeroSyncProvider";
 
 type DeskProvidersProps = {
   children: ReactNode;
@@ -16,16 +18,24 @@ export const DeskProviders = ({ children }: DeskProvidersProps) => {
   const isAuthRoute = pathname.startsWith("/sign-in");
 
   if (isAuthRoute) {
-    return <QueryProvider>{children}</QueryProvider>;
+    return (
+      <AutumnProvider>
+        <QueryProvider>{children}</QueryProvider>
+      </AutumnProvider>
+    );
   }
 
   return (
-    <QueryProvider>
-      <TerminalStateProvider>
-        <DarkflowAssistantRoot>
-          <DeskShell>{children}</DeskShell>
-        </DarkflowAssistantRoot>
-      </TerminalStateProvider>
-    </QueryProvider>
+    <AutumnProvider>
+      <QueryProvider>
+        <ZeroSyncProvider>
+          <TerminalStateProvider>
+            <DarkflowAssistantRoot>
+              <DeskShell>{children}</DeskShell>
+            </DarkflowAssistantRoot>
+          </TerminalStateProvider>
+        </ZeroSyncProvider>
+      </QueryProvider>
+    </AutumnProvider>
   );
 };

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
 import { PriceChartDynamic } from "@/components/chart/PriceChartDynamic";
+import { LiveBuyPriceModal } from "@/components/coin/LiveBuyPriceModal";
 import { useTerminal } from "@/components/layout/TerminalState";
 import { fetchChart, fetchCoinInsights, fetchTrades } from "@/lib/api/queries";
 import { queryKeys } from "@/lib/query-keys";
@@ -73,6 +74,7 @@ export const CoinDetailFullView = ({ symbol, displayLabel }: CoinDetailFullViewP
           <ArrowLeft className="me-1 size-3.5" aria-hidden />
           Back
         </Button>
+        <LiveBuyPriceModal symbol={symbol} />
         <div className="min-w-0 flex-1">
           <h1 className="truncate font-semibold text-foreground text-sm md:text-base">{title}</h1>
           <p className="font-mono text-[10px] text-muted-foreground uppercase">{symbol}</p>
@@ -183,7 +185,7 @@ export const CoinDetailFullView = ({ symbol, displayLabel }: CoinDetailFullViewP
 
               <section className="rounded-sm border border-border-subtle bg-black/30 p-3">
                 <h2 className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">
-                  Your desk position
+                  Your console position
                 </h2>
                 {insights.userPosition ? (
                   <dl className="mt-2 grid gap-2 font-mono text-[11px] sm:grid-cols-3">

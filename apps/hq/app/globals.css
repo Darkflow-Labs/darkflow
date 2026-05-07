@@ -1,0 +1,154 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@darkflow/ui/darkflow-tokens.css";
+
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+:root {
+  --background: #050505;
+  --foreground: oklch(0.93 0.004 170);
+  --card: #080808;
+  --card-foreground: oklch(0.92 0.006 170);
+  --muted: #0b0b0b;
+  --muted-foreground: oklch(0.66 0.01 250);
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.1);
+  --primary: #00ffa3;
+  --primary-foreground: #050505;
+  --ring: rgba(0, 255, 163, 0.5);
+  --popover: #070707;
+  --popover-foreground: oklch(0.92 0.006 170);
+}
+
+.hq-ambient {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  min-height: 100dvh;
+  background-color: var(--background);
+}
+
+.hq-ambient::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
+    );
+  background-size: 42px 42px;
+  opacity: 0.42;
+}
+
+.hq-ambient::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  animation: hq-grain-shift 0.8s steps(2, jump-none) infinite;
+}
+
+.hq-ambient > * {
+  position: relative;
+  z-index: 2;
+}
+
+.hq-scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255, 255, 255, 0.018) 3px,
+    rgba(255, 255, 255, 0.018) 4px
+  );
+  opacity: 0.22;
+  mix-blend-mode: soft-light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hq-scanlines {
+    opacity: 0.22;
+  }
+}
+
+.hq-tape-scroll {
+  animation: hq-tape-scroll 20s linear infinite;
+}
+
+@keyframes hq-tape-scroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hq-tape-scroll {
+    animation: none;
+  }
+}
+
+.hq-lab-frame {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.hq-lab-panel {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #080808;
+}
+
+.hq-lab-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10px;
+  color: color-mix(in srgb, var(--foreground) 62%, transparent);
+}
+
+.hq-status-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--primary);
+  box-shadow: 0 0 16px rgba(0, 255, 163, 0.4);
+}
+
+@keyframes hq-grain-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(1%, -1%);
+  }
+  50% {
+    transform: translate(-1%, 1%);
+  }
+  75% {
+    transform: translate(1%, 1%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}

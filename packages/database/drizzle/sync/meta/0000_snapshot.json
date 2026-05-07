@@ -1,0 +1,150 @@
+{
+  "id": "d4c2bd4b-9a12-4f1a-8a3c-18afe60b520e",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "sync.price_bar": {
+      "name": "price_bar",
+      "schema": "sync",
+      "columns": {
+        "mint": {
+          "name": "mint",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bucket_start": {
+          "name": "bucket_start",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bucket_interval": {
+          "name": "bucket_interval",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "open_sol": {
+          "name": "open_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "high_sol": {
+          "name": "high_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "low_sol": {
+          "name": "low_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "close_sol": {
+          "name": "close_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "volume_sol": {
+          "name": "volume_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'yellowstone-grpc'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "price_bar_mint_bucket_start_bucket_interval_pk": {
+          "name": "price_bar_mint_bucket_start_bucket_interval_pk",
+          "columns": [
+            "mint",
+            "bucket_start",
+            "bucket_interval"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "sync.price_latest": {
+      "name": "price_latest",
+      "schema": "sync",
+      "columns": {
+        "mint": {
+          "name": "mint",
+          "type": "varchar(64)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "price_sol": {
+          "name": "price_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slot": {
+          "name": "slot",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'yellowstone-grpc'"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {
+    "sync": "sync"
+  },
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

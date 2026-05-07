@@ -27,14 +27,14 @@ const TAPE_PREVIEW = [
   { time: "09:41:04", px: "411.09", sz: "90", ask: true },
 ] as const;
 
-const HeroDeskSnapshot = () => (
+const HeroConsoleSnapshot = () => (
   <div
     className="pointer-events-none flex min-h-0 flex-1 flex-col"
     role="img"
-    aria-label="Decorative desk preview: candle chart, level tags, and time and sales column. Simulated only, not live market data."
+    aria-label="Decorative console preview: candle chart, level tags, and time and sales column. Simulated only, not live market data."
   >
     <p className="mb-3 shrink-0 border-b border-border/60 pb-2 text-[11px] tracking-[0.12em] text-muted-foreground uppercase">
-      desk snapshot · simulated
+      console snapshot · simulated
     </p>
 
     <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_7.25rem] sm:gap-4">
@@ -116,7 +116,7 @@ const HeroDeskSnapshot = () => (
     </div>
 
     <p className="mt-3 shrink-0 text-center font-mono text-[10px] text-primary sm:text-left">
-      Join waitlist · early desk access
+      Join waitlist · early console access
     </p>
   </div>
 );
@@ -156,20 +156,20 @@ const TerminalHero = () => {
           </h1>
           <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
             One aggressive hub: chart, tape, and intel locked beside a thread that
-            actually answers back—type what you want the desk to do, watch the UI
+            actually answers back—type what you want the console to do, watch the UI
             move with you. We&apos;re opening early access because the old workflow
             is done.
           </p>
         </motion.div>
 
-        {/* <motion.div
+        <motion.div
           className="hb-glass flex min-h-[260px] flex-col overflow-hidden rounded-xl p-4 font-mono text-[13px] leading-relaxed sm:min-h-[300px] sm:p-5 lg:min-h-[320px]"
           initial={reducedMotion ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
         >
-          <HeroDeskSnapshot />
-        </motion.div> */}
+          <HeroConsoleSnapshot />
+        </motion.div>
       </div>
     </section>
   );

@@ -17,9 +17,9 @@ const fontMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Darkflow — Conversational crypto trading desk",
+  title: "Darkflow — Conversational crypto trading console",
   description:
-    "Waitlist for a chat-native trading hub: charts, tape, and intel beside an AI command console—one desk, early access.",
+    "Waitlist for a chat-native trading hub: charts, tape, and intel beside an AI command thread—one console, early access.",
 };
 
 const RootLayout = ({
