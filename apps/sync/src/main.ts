@@ -1,4 +1,5 @@
 import { createGuardianClient } from "@darkflow/guardian";
+import { createInterestWatchRegistry } from "@darkflow/sync/interest";
 import { createTickSubscriber } from "@darkflow/sync/pubsub";
 import { loadEnv } from "./config/env.js";
 import { createLogger } from "./logger.js";
@@ -8,13 +9,33 @@ const env = loadEnv();
 const logger = createLogger(env);
 const guardian = createGuardianClient({ rootKey: env.SYNC_UNKEY_VERIFY_ROOT_KEY });
 
+const tickInterestWatch = env.SYNC_TICK_INTEREST_REGISTRY_ENABLED
+  ? createInterestWatchRegistry({
+      adapter: env.REDIS_PUBSUB_ADAPTER,
+      redisUrl: env.REDIS_URL,
+      upstashUrl: env.UPSTASH_REDIS_REST_URL,
+      upstashToken: env.UPSTASH_REDIS_REST_TOKEN,
+      logger,
+      watchTtlMs: env.SYNC_TICK_WATCH_TTL_MS
+    })
+  : undefined;
+
 const tickServer = createTickStreamServer({
   guardian,
   host: env.SYNC_WS_HOST,
   port: env.SYNC_WS_PORT,
   maxClients: env.SYNC_WS_MAX_CLIENTS,
   logger,
-  requirePurpose: env.SYNC_REQUIRE_META_PURPOSE
+  requirePurpose: env.SYNC_REQUIRE_META_PURPOSE,
+  ...(tickInterestWatch
+    ? {
+        interestWatch: tickInterestWatch,
+        interestWatchTtlMs: env.SYNC_TICK_WATCH_TTL_MS,
+        ...(env.SYNC_TICK_WATCH_REFRESH_MS !== undefined
+          ? { interestWatchRefreshMs: env.SYNC_TICK_WATCH_REFRESH_MS }
+          : {})
+      }
+    : {})
 });
 
 const tickSubscriber = createTickSubscriber({
@@ -57,6 +78,11 @@ const shutdown = async () => {
     /* ignore */
   }
   await tickServer.stop();
+  try {
+    await tickInterestWatch?.close();
+  } catch {
+    /* ignore */
+  }
   logger.info("Sync tick stream shut down");
 };
 

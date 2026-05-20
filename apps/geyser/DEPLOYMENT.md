@@ -1,5 +1,10 @@
 # Darkflow Geyser Deployment Runbook
 
+## Redis interest filtering
+
+- Enable on core with `GEYSER_INTEREST_FILTER_ENABLED=true` after Sync (`SYNC_TICK_INTEREST_REGISTRY_ENABLED`) and/or Geyser WS interest consumers are deployed.
+- Gate **launch** publishes separately with `GEYSER_INTEREST_FILTER_APPLY_TO_LAUNCHES=true` only when `df:launch:watch` is maintained (e.g. Geyser WS clients subscribed to launches). Leaving it `false` avoids dropping launches when no WS has registered yet.
+
 ## Topology
 
 - `core` node (single region, EU recommended) ingests Yellowstone and publishes events.

@@ -107,3 +107,33 @@ BEDROCK_RAYON_NUM_THREADS=1
 ## systemd
 
 Use `systemd/bedrock-rpc.service.example` as template.
+
+## Storage cleanup (testnet)
+
+Bedrock can accumulate snapshot archives and large log files over time. You can prune these while the node is running.
+
+Run on demand:
+
+```bash
+npm run bedrock:cleanup:testnet --workspace @darkflow/bedrock
+```
+
+or for mainnet:
+
+```bash
+npm run bedrock:cleanup:mainnet --workspace @darkflow/bedrock
+```
+
+Optional env knobs (in your `rpc.*.env`):
+
+```bash
+BEDROCK_KEEP_FULL_SNAPSHOTS=2
+BEDROCK_KEEP_INCREMENTAL_SNAPSHOTS=4
+BEDROCK_LOG_MAX_MB=1024
+```
+
+Recommended cron cadence on testnet:
+
+```bash
+*/20 * * * * cd /home/sol/darkflow && /usr/bin/npm run bedrock:cleanup:testnet --workspace @darkflow/bedrock >/tmp/bedrock-cleanup.log 2>&1
+```

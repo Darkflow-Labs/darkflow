@@ -12,6 +12,11 @@ type EventBusInput = {
   redisUrl?: string;
   upstashUrl?: string;
   upstashToken?: string;
+  /** When set, Redis publish is skipped if gate returns false (async). Errors fail-open. */
+  interestGate?: {
+    shouldPublishTick(tokenMint: string): Promise<boolean>;
+    shouldPublishLaunch(): Promise<boolean>;
+  };
 };
 
 type EventHandler = (event: GeyserLaunchEvent | GeyserTickEvent) => void;
@@ -46,14 +51,36 @@ export const createGeyserEventBus = (input: EventBusInput): GeyserEventBus => {
       | undefined;
     return {
       publishLaunch: (event) => {
-        void upstash.publish(input.launchChannel, JSON.stringify(event)).catch((err) => {
-          input.logger.debug({ err }, "Failed to publish launch event");
-        });
+        void (async () => {
+          if (input.interestGate) {
+            try {
+              if (!(await input.interestGate.shouldPublishLaunch())) {
+                return;
+              }
+            } catch (err: unknown) {
+              input.logger.warn({ err }, "Interest gate launch check failed; publishing anyway");
+            }
+          }
+          void upstash.publish(input.launchChannel, JSON.stringify(event)).catch((err) => {
+            input.logger.debug({ err }, "Failed to publish launch event");
+          });
+        })();
       },
       publishTick: (event) => {
-        void upstash.publish(input.tickChannel, JSON.stringify(event)).catch((err) => {
-          input.logger.debug({ err }, "Failed to publish tick event");
-        });
+        void (async () => {
+          if (input.interestGate) {
+            try {
+              if (!(await input.interestGate.shouldPublishTick(event.tokenMint))) {
+                return;
+              }
+            } catch (err: unknown) {
+              input.logger.warn({ err }, "Interest gate tick check failed; publishing anyway");
+            }
+          }
+          void upstash.publish(input.tickChannel, JSON.stringify(event)).catch((err) => {
+            input.logger.debug({ err }, "Failed to publish tick event");
+          });
+        })();
       },
       subscribe: async (handler) => {
         launchSub = (await (upstash as unknown as { subscribe: (ch: string) => Promise<unknown> }).subscribe(
@@ -92,19 +119,45 @@ export const createGeyserEventBus = (input: EventBusInput): GeyserEventBus => {
   return {
     publishLaunch: (event) => {
       void (async () => {
-        if (!redisClient.isOpen) {
-          await redisClient.connect();
+        if (input.interestGate) {
+          try {
+            if (!(await input.interestGate.shouldPublishLaunch())) {
+              return;
+            }
+          } catch (err: unknown) {
+            input.logger.warn({ err }, "Interest gate launch check failed; publishing anyway");
+          }
         }
-        await redisClient.publish(input.launchChannel, JSON.stringify(event));
-      })().catch((err) => input.logger.debug({ err }, "Failed to publish launch event"));
+        try {
+          if (!redisClient.isOpen) {
+            await redisClient.connect();
+          }
+          await redisClient.publish(input.launchChannel, JSON.stringify(event));
+        } catch (err: unknown) {
+          input.logger.debug({ err }, "Failed to publish launch event");
+        }
+      })();
     },
     publishTick: (event) => {
       void (async () => {
-        if (!redisClient.isOpen) {
-          await redisClient.connect();
+        if (input.interestGate) {
+          try {
+            if (!(await input.interestGate.shouldPublishTick(event.tokenMint))) {
+              return;
+            }
+          } catch (err: unknown) {
+            input.logger.warn({ err }, "Interest gate tick check failed; publishing anyway");
+          }
         }
-        await redisClient.publish(input.tickChannel, JSON.stringify(event));
-      })().catch((err) => input.logger.debug({ err }, "Failed to publish tick event"));
+        try {
+          if (!redisClient.isOpen) {
+            await redisClient.connect();
+          }
+          await redisClient.publish(input.tickChannel, JSON.stringify(event));
+        } catch (err: unknown) {
+          input.logger.debug({ err }, "Failed to publish tick event");
+        }
+      })();
     },
     subscribe: async (handler) => {
       if (!subClient.isOpen) {

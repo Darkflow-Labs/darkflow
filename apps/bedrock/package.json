@@ -6,6 +6,8 @@
   "scripts": {
     "bedrock:preflight": "bash ./scripts/preflight.sh",
     "bedrock:start:testnet": "BEDROCK_ENV_FILE=./config/rpc.testnet.env bash ./scripts/start-rpc.sh",
-    "bedrock:start:mainnet": "BEDROCK_ENV_FILE=./config/rpc.mainnet.env bash ./scripts/start-rpc.sh"
+    "bedrock:start:mainnet": "BEDROCK_ENV_FILE=./config/rpc.mainnet.env bash ./scripts/start-rpc.sh",
+    "bedrock:cleanup:testnet": "BEDROCK_ENV_FILE=./config/rpc.testnet.env bash ./scripts/cleanup-storage.sh",
+    "bedrock:cleanup:mainnet": "BEDROCK_ENV_FILE=./config/rpc.mainnet.env bash ./scripts/cleanup-storage.sh"
   }
 }

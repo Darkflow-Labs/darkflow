@@ -2,6 +2,7 @@ import http from "node:http";
 import type { Logger } from "pino";
 import { WebSocketServer, WebSocket } from "ws";
 import type { GuardianClient } from "@darkflow/guardian";
+import type { InterestWatchRegistry } from "@darkflow/sync/interest";
 
 export type TickStreamServer = {
   start(): Promise<void>;
@@ -20,6 +21,12 @@ export type TickStreamServerConfig = {
   requirePurpose?: string;
   /** Max mints tracked per socket (subscribe + unsubscribe). */
   maxMintsPerSocket?: number;
+  /** Optional Redis interest registry so Geyser can skip Redis publishes for unwatched mints. */
+  interestWatch?: InterestWatchRegistry;
+  /** TTL passed through to `touchMintWatch` (defaults `60000`). */
+  interestWatchTtlMs?: number;
+  /** Refresh interval while subscribed (defaults `interestWatchTtlMs / 2`). */
+  interestWatchRefreshMs?: number;
 };
 
 const extractClientKey = (req: http.IncomingMessage): string | undefined => {
@@ -43,19 +50,49 @@ export const createTickStreamServer = (cfg: TickStreamServerConfig): TickStreamS
   const clients = new Set<WebSocket>();
   const mintToSockets = new Map<string, Set<WebSocket>>();
   const socketMints = new WeakMap<WebSocket, Set<string>>();
+  const mintInterestTimers = new Map<string, ReturnType<typeof setInterval>>();
   const maxMints = cfg.maxMintsPerSocket ?? MAX_MINTS_DEFAULT;
+  const ttlMs = cfg.interestWatchTtlMs ?? 60_000;
+  const refreshMs = cfg.interestWatchRefreshMs ?? Math.max(5_000, Math.floor(ttlMs / 2));
 
   const verifyKey = async (rawKey: string) => cfg.guardian.verifyApiKey(rawKey);
 
-  const removeSocketFromMint = (mint: string, ws: WebSocket) => {
+  const stopMintInterestHeartbeat = (mint: string) => {
+    const t = mintInterestTimers.get(mint);
+    if (t) {
+      clearInterval(t);
+      mintInterestTimers.delete(mint);
+    }
+    void cfg.interestWatch?.releaseMintWatch(mint);
+  };
+
+  const ensureMintInterestHeartbeat = (mint: string) => {
+    if (!cfg.interestWatch) {
+      return;
+    }
+    void cfg.interestWatch.touchMintWatch(mint);
+    if (mintInterestTimers.has(mint)) {
+      return;
+    }
+    mintInterestTimers.set(
+      mint,
+      setInterval(() => {
+        void cfg.interestWatch?.touchMintWatch(mint);
+      }, refreshMs)
+    );
+  };
+
+  const removeSocketFromMint = (mint: string, ws: WebSocket): boolean => {
     const set = mintToSockets.get(mint);
     if (!set) {
-      return;
+      return false;
     }
     set.delete(ws);
     if (set.size === 0) {
       mintToSockets.delete(mint);
+      return true;
     }
+    return false;
   };
 
   const handleControlMessage = (ws: WebSocket, raw: string) => {
@@ -93,6 +130,9 @@ export const createTickStreamServer = (cfg: TickStreamServerConfig): TickStreamS
           mintToSockets.set(mint, set);
         }
         set.add(ws);
+        if (set.size === 1) {
+          ensureMintInterestHeartbeat(mint);
+        }
       }
       return;
     }
@@ -100,7 +140,10 @@ export const createTickStreamServer = (cfg: TickStreamServerConfig): TickStreamS
     for (const mint of mints) {
       if (tracked.has(mint)) {
         tracked.delete(mint);
-        removeSocketFromMint(mint, ws);
+        const becameEmpty = removeSocketFromMint(mint, ws);
+        if (becameEmpty) {
+          stopMintInterestHeartbeat(mint);
+        }
       }
     }
   };
@@ -196,7 +239,10 @@ export const createTickStreamServer = (cfg: TickStreamServerConfig): TickStreamS
             const mints = socketMints.get(ws);
             if (mints) {
               for (const mint of mints) {
-                removeSocketFromMint(mint, ws);
+                const becameEmpty = removeSocketFromMint(mint, ws);
+                if (becameEmpty) {
+                  stopMintInterestHeartbeat(mint);
+                }
               }
               mints.clear();
             }
@@ -224,6 +270,10 @@ export const createTickStreamServer = (cfg: TickStreamServerConfig): TickStreamS
   };
 
   const stop: TickStreamServer["stop"] = async () => {
+    for (const t of mintInterestTimers.values()) {
+      clearInterval(t);
+    }
+    mintInterestTimers.clear();
     for (const ws of clients) {
       try {
         ws.close();

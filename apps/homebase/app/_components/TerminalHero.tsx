@@ -137,28 +137,28 @@ const TerminalHero = () => {
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="font-mono text-[10px] font-medium tracking-[0.16em] text-muted-foreground uppercase sm:text-xs sm:tracking-[0.2em]">
-            DARKFLOW // INTENT-FIRST TRADING
+            DARKFLOW // INFRASTRUCTURE-POWERED EDGE
           </p>
           <h1
             id="hero-heading"
             className="font-heading text-balance text-6xl font-extrabold leading-[1.02] tracking-tighter text-foreground sm:text-5xl md:text-[52px]"
           >
             <span className="block">
-              Stop herding{" "}
-              <span className="hb-text-metallic">tabs</span>
+              Trade with a{" "}
+              <span className="hb-text-metallic">faster edge</span>
               <span className="text-primary">.</span>
             </span>
             <span className="mt-1 block sm:mt-2">
-              Start making{" "}
-              <span className="hb-text-metallic">trades</span>
+              Built on{" "}
+              <span className="hb-text-metallic">our own stack</span>
               <span className="text-primary">.</span>
             </span>
           </h1>
           <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            One aggressive hub: chart, tape, and intel locked beside a thread that
-            actually answers back—type what you want the console to do, watch the UI
-            move with you. We&apos;re opening early access because the old workflow
-            is done.
+            Darkflow is engineered from infrastructure to interface, so your chart,
+            tape, and trade context stay fast and reliable when markets speed up.
+            You operate from one decisive console while our real-time engine does the
+            heavy lifting underneath.
           </p>
         </motion.div>
 

@@ -1,8 +1,15 @@
 import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { priceBars, priceLatest } from "./schema.js";
+import {
+  liquiditySnapshots,
+  priceBars,
+  priceLatest,
+  priceTicks,
+  tokenMetrics,
+  tradeEvents
+} from "./schema.js";
 
-const syncTables = { priceBars, priceLatest };
+const syncTables = { priceBars, priceLatest, priceTicks, liquiditySnapshots, tokenMetrics, tradeEvents };
 
 export type SyncDb = NodePgDatabase<typeof syncTables>;
 

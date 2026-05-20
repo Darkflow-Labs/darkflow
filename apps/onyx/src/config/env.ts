@@ -213,6 +213,10 @@ const envSchema = z.object({
   UPSTASH_REDIS_REST_TOKEN: z.string().min(1).optional(),
   /** Redis channel for `PriceTickPubPayload` JSON (default `df:price:tick`). */
   REDIS_PRICE_TICK_CHANNEL: z.string().min(1).default("df:price:tick"),
+  /** Register Redis mint watch keys while positions are open (pairs with Geyser interest filter). */
+  ONYX_TICK_INTEREST_WATCH_ENABLED: envBool.default(false),
+  /** TTL for mint watch keys while positions are open (default 60s); refreshed on ticks for open mints. */
+  ONYX_TICK_WATCH_TTL_MS: z.coerce.number().int().min(5_000).max(3_600_000).default(60_000),
   /** When true, Onyx polls SOL/USD from Pyth via RPC and writes to sync DB + cache as SOL mint. */
   ONYX_SOL_USD_FEED_ENABLED: envBool.default(true),
   /** Pyth Pro Lazer access token (server-side only). When set, uses Lazer instead of RPC polling. */

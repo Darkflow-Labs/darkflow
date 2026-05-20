@@ -1,5 +1,29 @@
-import "dotenv/config";
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
+import dotenv from "dotenv";
 import { z } from "zod";
+
+const resolveEnvFilePath = (): string | undefined => {
+  const explicitEnvFile = process.env.GEYSER_ENV_FILE;
+  if (explicitEnvFile) {
+    return resolve(explicitEnvFile);
+  }
+
+  const fallbackCandidates = [".env", ".env.core", ".env.edge"];
+  for (const candidate of fallbackCandidates) {
+    const candidatePath = resolve(candidate);
+    if (existsSync(candidatePath)) {
+      return candidatePath;
+    }
+  }
+
+  return undefined;
+};
+
+const envFilePath = resolveEnvFilePath();
+if (envFilePath) {
+  dotenv.config({ path: envFilePath });
+}
 
 const envSchema = z
   .object({
@@ -18,7 +42,18 @@ const envSchema = z
     GEYSER_WS_PORT: z.coerce.number().int().min(1).max(65_535).default(8792),
     GEYSER_WS_MAX_CLIENTS: z.coerce.number().int().min(1).max(10_000).default(200),
     GEYSER_WS_AUTH_TOKEN: z.string().min(1).optional(),
-    GEYSER_LOG_PRETTY: z.coerce.boolean().default(false)
+    GEYSER_LOG_PRETTY: z.coerce.boolean().default(false),
+    /** When true, core only publishes tick/launch payloads to Redis if matching interest keys exist (fail-open on Redis errors). */
+    GEYSER_INTEREST_FILTER_ENABLED: z.coerce.boolean().default(false),
+    /**
+     * When true with `GEYSER_INTEREST_FILTER_ENABLED`, launch events require `df:launch:watch` (set by Geyser WS or another coordinator).
+     * Default false so the launch channel is not accidentally silenced when no client has registered yet.
+     */
+    GEYSER_INTEREST_FILTER_APPLY_TO_LAUNCHES: z.coerce.boolean().default(false),
+    /** TTL for Redis watch keys written by Geyser WS interest tracking (default 60s). */
+    GEYSER_INTEREST_WATCH_TTL_MS: z.coerce.number().int().min(5_000).max(3_600_000).default(60_000),
+    /** Refresh interval for Redis watch keys while subscribers remain (default TTL/2). */
+    GEYSER_INTEREST_WATCH_REFRESH_MS: z.coerce.number().int().min(2_500).max(1_800_000).optional()
   })
   .superRefine((data, ctx) => {
     if (data.GEYSER_ROLE === "core" && !data.GEYSER_UPSTREAM_ENDPOINT) {

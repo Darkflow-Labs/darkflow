@@ -19,9 +19,33 @@ export {
   type TickPubSubAdapter
 } from "./redis/tick-pubsub";
 export {
+  createInterestPublisherGate,
+  createInterestWatchRegistry,
+  mintTickWatchKey,
+  LAUNCH_WATCH_KEY,
+  TICK_FANOUT_WATCH_KEY,
+  type InterestPublisherGate,
+  type InterestPublisherGateConfig,
+  type InterestWatchAdapter,
+  type InterestWatchRegistry,
+  type InterestWatchRegistryConfig
+} from "./redis/interest-watch";
+export {
+  insertLiquiditySnapshot,
+  insertPriceTick,
+  insertTradeEvent,
+  persistMarketTick,
+  pruneLiquiditySnapshotsOlderThan,
+  prunePriceTicksOlderThan,
   upsertPriceBarBucket,
+  upsertPriceBars,
   upsertPriceLatest,
+  upsertTokenMetrics,
   prunePriceBarsOlderThan,
+  pruneTradeEventsOlderThan,
+  type LiquiditySnapshotInput,
+  type PriceBarInterval,
+  type TradeEventInput,
   type PriceTickSnapshot
 } from "./writers/market-writers";
 export { ZeroBootstrap } from "./react/ZeroBootstrap";

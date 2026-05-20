@@ -13,11 +13,13 @@
     "./preload": "./src/effect/preload.ts",
     "./redis": "./src/redis/price-cache.ts",
     "./pubsub": "./src/redis/tick-pubsub.ts",
+    "./interest": "./src/redis/interest-watch.ts",
     "./writers": "./src/writers/market-writers.ts",
     "./react": "./src/react/ZeroBootstrap.tsx"
   },
   "scripts": {
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "prune:market-data": "node --import tsx src/jobs/pruneMarketData.ts"
   },
   "dependencies": {
     "@darkflow/db": "*",

@@ -42,7 +42,7 @@ const SiteHeader = () => {
               "font-mono text-[10px] uppercase tracking-wide sm:text-xs"
             )}
           >
-            REQUEST_ACCESS
+            JOIN_EDGE_BETA
           </Link>
         </nav>
       </div>

@@ -26,7 +26,7 @@ const hashCredentialToTerminalId = async (value: string): Promise<string> => {
 };
 
 const buildShareText = (siteUrl: string) =>
-  `Getting on the list for Darkflow — conversational trading console + AI copilot. Join me: ${siteUrl}`;
+  `Joining Darkflow early access — infrastructure-powered trading edge. Join me: ${siteUrl}`;
 
 const WaitlistCommand = () => {
   const fieldId = useId();
@@ -86,8 +86,9 @@ const WaitlistCommand = () => {
           [CONSOLE]: EARLY_ACCESS_WAITLIST
         </p>
         <p className="mb-4 text-sm text-muted-foreground">
-          Reserve a seat for the chat-native trading hub—no wallet required to sign
-          up, just something we can reach you at.
+          Reserve your seat for early access to Darkflow&apos;s infrastructure-powered
+          trading console. No wallet needed to join the list, just where we can reach
+          you.
         </p>
         <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
@@ -127,7 +128,7 @@ const WaitlistCommand = () => {
             disabled={busy}
             className="w-fit shrink-0 font-mono text-xs uppercase tracking-wide sm:text-sm"
           >
-            {busy ? "SENDING…" : "REQUEST_EARLY_ACCESS"}
+            {busy ? "SENDING…" : "REQUEST_EDGE_BETA"}
           </Button>
         </form>
 
@@ -141,7 +142,7 @@ const WaitlistCommand = () => {
             </p>
             <p className="text-sm text-muted-foreground">
               Save this ID—we&apos;ll use it when invites go out. Nothing here is a
-              live trading or performance claim; it&apos;s your waitlist receipt.
+              live trading or performance guarantee; it&apos;s your waitlist receipt.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               <a

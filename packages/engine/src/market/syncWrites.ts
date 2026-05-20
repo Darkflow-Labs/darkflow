@@ -1,7 +1,6 @@
 import { getOrCreateSyncDb, type SyncDb } from "@darkflow/db/sync";
 import {
-  upsertPriceBarBucket,
-  upsertPriceLatest,
+  persistMarketTick,
   type PriceTickSnapshot
 } from "@darkflow/sync/writers";
 import { createPriceCacheFromEnv, type PriceCachePort } from "@darkflow/sync/redis";
@@ -12,15 +11,16 @@ export type EnginePriceTick = {
   receivedAtMs: number;
   source: string;
   slot?: string | null;
+  eventType?: string;
 };
 
 export type MarketSyncWriterOptions = {
   /** Defaults to `process.env.SYNC_DATABASE_URL ?? process.env.ZERO_UPSTREAM_DATABASE_URL`. */
   syncDatabaseUrl?: string | undefined;
   cache?: PriceCachePort | undefined;
-  /** OHLC bucket width (ms). */
+  /** Deprecated no-op (kept for compatibility with existing callers). */
   barBucketMs?: number;
-  /** Minimum time between bar upserts per mint. */
+  /** Deprecated no-op (kept for compatibility with existing callers). */
   throttleBarMs?: number;
 };
 
@@ -34,8 +34,6 @@ export const createMarketSyncWriter = (opts: MarketSyncWriterOptions = {}) => {
     process.env.SYNC_DATABASE_URL ??
     process.env.ZERO_UPSTREAM_DATABASE_URL;
   const cache = opts.cache ?? createPriceCacheFromEnv();
-  const barBucketMs = opts.barBucketMs ?? 500;
-  const throttleBarMs = opts.throttleBarMs ?? 450;
 
   let db: SyncDb | undefined;
   const getDb = (): SyncDb | undefined => {
@@ -48,14 +46,13 @@ export const createMarketSyncWriter = (opts: MarketSyncWriterOptions = {}) => {
     return db;
   };
 
-  const lastBarWriteByMint = new Map<string, number>();
-
   const toSnapshot = (tick: EnginePriceTick): PriceTickSnapshot => ({
     mint: tick.mint,
     priceSol: tick.priceSol,
     receivedAtMs: tick.receivedAtMs,
     source: tick.source,
-    slot: tick.slot ?? null
+    slot: tick.slot ?? null,
+    eventType: tick.eventType
   });
 
   return {
@@ -67,7 +64,9 @@ export const createMarketSyncWriter = (opts: MarketSyncWriterOptions = {}) => {
       }
       const tasks: Promise<unknown>[] = [];
       if (drizzle) {
-        tasks.push(upsertPriceLatest(drizzle, snapshot));
+        tasks.push(
+          persistMarketTick(drizzle, snapshot).catch(() => undefined)
+        );
       }
       if (cache) {
         tasks.push(
@@ -80,17 +79,6 @@ export const createMarketSyncWriter = (opts: MarketSyncWriterOptions = {}) => {
         );
       }
       await Promise.allSettled(tasks);
-
-      if (!drizzle) {
-        return;
-      }
-      const now = tick.receivedAtMs;
-      const last = lastBarWriteByMint.get(tick.mint) ?? 0;
-      if (now - last < throttleBarMs) {
-        return;
-      }
-      lastBarWriteByMint.set(tick.mint, now);
-      await upsertPriceBarBucket(drizzle, snapshot, { bucketMs: barBucketMs }).catch(() => undefined);
     }
   };
 };

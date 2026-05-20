@@ -21,6 +21,10 @@ Onyx is a speed + safety focused pump.fun new-launch bot scaffold for Solana usi
 - Trade outcomes now track realized wallet PnL (not only price-move PnL) for risk controls.
 - Drawdown kill-switch uses realized equity drawdown and can require a minimum number of closed trades before activating (`ONYX_DRAWDOWN_MIN_CLOSED_TRADES`).
 
+## Redis tick interest (Geyser coordination)
+
+When `ONYX_TICK_INTEREST_WATCH_ENABLED=true`, Onyx registers `df:tick:watch:<mint>` while a position is open (and refreshes on ticks for open mints). Use the **same** Redis as `REDIS_PUBSUB_*`. Pairs with Geyser core `GEYSER_INTEREST_FILTER_ENABLED` so Redis only carries ticks for watched mints.
+
 ## Run
 
 ```bash
@@ -58,6 +62,34 @@ npm run dev -- sniping
 - Entries are skipped automatically when notional/edge viability checks fail.
 - Edge viability now enforces net-edge accounting (`expectedAlpha - impact - fees - slippage`).
 - Entries are also skipped when signal age exceeds `ONYX_ENTRY_MAX_SIGNAL_AGE_MS`.
+
+## Durable market data (Step 1)
+
+Onyx now writes raw ticks + derived market tables via the sync writer path:
+
+- `sync.price_tick`
+- `sync.price_bar` (`1s`, `5s`, `1m`, `5m`, `1h`)
+- `sync.price_latest`
+- `sync.token_metrics`
+
+Related knobs:
+
+- `ONYX_MARKET_SYNC_ENABLED`
+- `ONYX_MARKET_SYNC_BAR_BUCKET_MS` (legacy compatibility; bars now persist multi-interval)
+- `ONYX_MARKET_SYNC_BAR_THROTTLE_MS` (legacy compatibility)
+
+Retention prune job (from repo root):
+
+```bash
+npm run prune:market-data --workspace @darkflow/sync
+```
+
+Env controls for pruning:
+
+- `SYNC_PRICE_TICK_RETENTION_DAYS` (default `3`)
+- `SYNC_PRICE_BAR_RETENTION_DAYS` (default `30`)
+- `SYNC_TRADE_EVENT_RETENTION_DAYS` (default `30`)
+- `SYNC_LIQUIDITY_RETENTION_DAYS` (default `30`)
 - Live entries require primary-price warmup per mint:
   - at least `ONYX_ENTRY_MIN_PRIMARY_TICKS` ticks
   - spread over at least `ONYX_ENTRY_TICK_WARMUP_MS`

@@ -46,6 +46,7 @@ import { SweepDetector, type SweepProfile } from "./strategy/sweep/sweepDetector
 import type { LaunchSignal } from "./types/domain.js";
 import { prisma } from "@darkflow/db";
 import { createMarketSyncWriter } from "@darkflow/engine/market";
+import { createInterestWatchRegistry } from "@darkflow/sync/interest";
 import { createTickPublisher } from "@darkflow/sync/pubsub";
 import { createGuardianBilling, createGuardianClient } from "@darkflow/guardian";
 import { createLaunchStreamServer } from "./stream/launchStreamServer.js";
@@ -73,6 +74,16 @@ const redisTickPublisher = createTickPublisher({
   upstashUrl: env.UPSTASH_REDIS_REST_URL,
   upstashToken: env.UPSTASH_REDIS_REST_TOKEN
 });
+const tickInterestWatch = env.ONYX_TICK_INTEREST_WATCH_ENABLED
+  ? createInterestWatchRegistry({
+      adapter: env.REDIS_PUBSUB_ADAPTER,
+      redisUrl: env.REDIS_PUBSUB_URL,
+      upstashUrl: env.UPSTASH_REDIS_REST_URL,
+      upstashToken: env.UPSTASH_REDIS_REST_TOKEN,
+      logger,
+      watchTtlMs: env.ONYX_TICK_WATCH_TTL_MS
+    })
+  : undefined;
 const executionCfg = resolveExecutionConfig({
   envPartial: mapOnyxEnvToExecutionDefaultsPartial(env)
 });
@@ -204,7 +215,8 @@ if (!tradingEnabled) {
         mint: tick.tokenMint,
         priceSol: tick.priceSol,
         receivedAtMs: tick.receivedAt,
-        source: tick.source
+        source: tick.source,
+        eventType: tick.eventType
       });
     }
   });
@@ -889,6 +901,7 @@ const finalizeClosedPosition = (
   });
   metrics.recordDrawdown(riskController.getDrawdownBps());
   recordWalletMilestones();
+  void tickInterestWatch?.releaseMintWatch(closed.tokenMint);
 };
 
 const sanitizeRealizedWalletPnlBps = ({
@@ -1011,6 +1024,7 @@ const executeEntry = async ({
     creator: launch.creator,
     bondingCurve: launch.bondingCurve
   });
+  void tickInterestWatch?.touchMintWatch(launch.tokenMint);
   pendingEntries.delete(launch.tokenMint);
   if (env.ONYX_BILLING_TRADE_ENABLED && guardianBilling && env.ONYX_BILLING_CUSTOMER_ID) {
     const buyNotionalUsd = intent.amountSol * env.ONYX_ESTIMATED_SOL_USD;
@@ -1534,7 +1548,8 @@ const processPriceTick = async (tick: PriceTick) => {
       mint: tick.tokenMint,
       priceSol: tick.priceSol,
       receivedAtMs: tick.receivedAt,
-      source: tick.source
+      source: tick.source,
+      eventType: tick.eventType
     });
   }
   updateHighVolumePriceSeries(tick.tokenMint, tick.priceSol, tick.receivedAt);
@@ -1733,6 +1748,9 @@ try {
 subscriber.start();
 priceMux.onTick(async (tick) => {
   redisTickPublisher?.publish(tick);
+  if (tickInterestWatch && positionManager.hasOpenPosition(tick.tokenMint)) {
+    void tickInterestWatch.touchMintWatch(tick.tokenMint);
+  }
   await processPriceTick(tick);
 });
 priceMux.start();

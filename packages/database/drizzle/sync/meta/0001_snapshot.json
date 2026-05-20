@@ -1,0 +1,584 @@
+{
+  "id": "ecafe96a-c990-4a90-b186-ac1e37c43c1c",
+  "prevId": "d4c2bd4b-9a12-4f1a-8a3c-18afe60b520e",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "sync.liquidity_snapshot": {
+      "name": "liquidity_snapshot",
+      "schema": "sync",
+      "columns": {
+        "mint": {
+          "name": "mint",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "captured_at": {
+          "name": "captured_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pool_address": {
+          "name": "pool_address",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "liquidity_sol": {
+          "name": "liquidity_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "liquidity_usd": {
+          "name": "liquidity_usd",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'yellowstone-grpc'"
+        }
+      },
+      "indexes": {
+        "liquidity_snapshot_mint_captured_idx": {
+          "name": "liquidity_snapshot_mint_captured_idx",
+          "columns": [
+            {
+              "expression": "mint",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "captured_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "liquidity_snapshot_pool_captured_idx": {
+          "name": "liquidity_snapshot_pool_captured_idx",
+          "columns": [
+            {
+              "expression": "pool_address",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "captured_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "liquidity_snapshot_mint_pool_address_captured_at_pk": {
+          "name": "liquidity_snapshot_mint_pool_address_captured_at_pk",
+          "columns": [
+            "mint",
+            "pool_address",
+            "captured_at"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "sync.price_bar": {
+      "name": "price_bar",
+      "schema": "sync",
+      "columns": {
+        "mint": {
+          "name": "mint",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bucket_start": {
+          "name": "bucket_start",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bucket_interval": {
+          "name": "bucket_interval",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "open_sol": {
+          "name": "open_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "high_sol": {
+          "name": "high_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "low_sol": {
+          "name": "low_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "close_sol": {
+          "name": "close_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "volume_sol": {
+          "name": "volume_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'yellowstone-grpc'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "price_bar_mint_interval_start_idx": {
+          "name": "price_bar_mint_interval_start_idx",
+          "columns": [
+            {
+              "expression": "mint",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "bucket_interval",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "bucket_start",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "price_bar_bucket_start_idx": {
+          "name": "price_bar_bucket_start_idx",
+          "columns": [
+            {
+              "expression": "bucket_start",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "price_bar_mint_bucket_start_bucket_interval_pk": {
+          "name": "price_bar_mint_bucket_start_bucket_interval_pk",
+          "columns": [
+            "mint",
+            "bucket_start",
+            "bucket_interval"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "sync.price_latest": {
+      "name": "price_latest",
+      "schema": "sync",
+      "columns": {
+        "mint": {
+          "name": "mint",
+          "type": "varchar(64)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "price_sol": {
+          "name": "price_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slot": {
+          "name": "slot",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'yellowstone-grpc'"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "sync.price_tick": {
+      "name": "price_tick",
+      "schema": "sync",
+      "columns": {
+        "mint": {
+          "name": "mint",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "received_at": {
+          "name": "received_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price_sol": {
+          "name": "price_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slot": {
+          "name": "slot",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'yellowstone-grpc'"
+        },
+        "event_type": {
+          "name": "event_type",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "price_tick_mint_received_idx": {
+          "name": "price_tick_mint_received_idx",
+          "columns": [
+            {
+              "expression": "mint",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "received_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "price_tick_received_idx": {
+          "name": "price_tick_received_idx",
+          "columns": [
+            {
+              "expression": "received_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "price_tick_mint_received_at_pk": {
+          "name": "price_tick_mint_received_at_pk",
+          "columns": [
+            "mint",
+            "received_at"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "sync.token_metrics": {
+      "name": "token_metrics",
+      "schema": "sync",
+      "columns": {
+        "mint": {
+          "name": "mint",
+          "type": "varchar(64)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "price_change_1m_bps": {
+          "name": "price_change_1m_bps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price_change_5m_bps": {
+          "name": "price_change_5m_bps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price_change_1h_bps": {
+          "name": "price_change_1h_bps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price_change_24h_bps": {
+          "name": "price_change_24h_bps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "volume_1m_sol": {
+          "name": "volume_1m_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "volume_5m_sol": {
+          "name": "volume_5m_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "volume_1h_sol": {
+          "name": "volume_1h_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "volatility_1h_bps": {
+          "name": "volatility_1h_bps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "momentum_5m_bps": {
+          "name": "momentum_5m_bps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'derived'"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "sync.trade_event": {
+      "name": "trade_event",
+      "schema": "sync",
+      "columns": {
+        "mint": {
+          "name": "mint",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tx_signature": {
+          "name": "tx_signature",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "event_at": {
+          "name": "event_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "side": {
+          "name": "side",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "size_token": {
+          "name": "size_token",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "size_sol": {
+          "name": "size_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price_sol": {
+          "name": "price_sol",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source": {
+          "name": "source",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'yellowstone-grpc'"
+        }
+      },
+      "indexes": {
+        "trade_event_mint_event_idx": {
+          "name": "trade_event_mint_event_idx",
+          "columns": [
+            {
+              "expression": "mint",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "event_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "trade_event_event_idx": {
+          "name": "trade_event_event_idx",
+          "columns": [
+            {
+              "expression": "event_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "trade_event_tx_signature_event_at_pk": {
+          "name": "trade_event_tx_signature_event_at_pk",
+          "columns": [
+            "tx_signature",
+            "event_at"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {
+    "sync": "sync"
+  },
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -4,9 +4,35 @@ import { toLaunchEvent, toTickEvent } from "./runtime/events.js";
 import { createGeyserEventBus } from "./runtime/eventBus.js";
 import { GeyserIngestor } from "./runtime/geyserIngestor.js";
 import { PublicStreamServer } from "./runtime/publicStreamServer.js";
+import {
+  createInterestPublisherGate,
+  createInterestWatchRegistry
+} from "@darkflow/sync/interest";
 
 const env = loadEnv();
 const logger = createLogger(env);
+
+const interestPublisherGate = createInterestPublisherGate({
+  adapter: env.GEYSER_REDIS_ADAPTER,
+  redisUrl: env.GEYSER_REDIS_URL,
+  upstashUrl: env.GEYSER_UPSTASH_REDIS_REST_URL,
+  upstashToken: env.GEYSER_UPSTASH_REDIS_REST_TOKEN,
+  logger,
+  filterEnabled: env.GEYSER_INTEREST_FILTER_ENABLED,
+  filterLaunches: env.GEYSER_INTEREST_FILTER_APPLY_TO_LAUNCHES
+});
+
+const streamInterestWatch =
+  env.GEYSER_WS_ENABLED
+    ? createInterestWatchRegistry({
+        adapter: env.GEYSER_REDIS_ADAPTER,
+        redisUrl: env.GEYSER_REDIS_URL,
+        upstashUrl: env.GEYSER_UPSTASH_REDIS_REST_URL,
+        upstashToken: env.GEYSER_UPSTASH_REDIS_REST_TOKEN,
+        logger,
+        watchTtlMs: env.GEYSER_INTEREST_WATCH_TTL_MS
+      })
+    : undefined;
 
 const eventBus = createGeyserEventBus({
   adapter: env.GEYSER_REDIS_ADAPTER,
@@ -15,7 +41,8 @@ const eventBus = createGeyserEventBus({
   logger,
   redisUrl: env.GEYSER_REDIS_URL,
   upstashUrl: env.GEYSER_UPSTASH_REDIS_REST_URL,
-  upstashToken: env.GEYSER_UPSTASH_REDIS_REST_TOKEN
+  upstashToken: env.GEYSER_UPSTASH_REDIS_REST_TOKEN,
+  interestGate: interestPublisherGate
 });
 
 const ingestor =
@@ -34,7 +61,16 @@ const streamServer = env.GEYSER_WS_ENABLED
       port: env.GEYSER_WS_PORT,
       maxClients: env.GEYSER_WS_MAX_CLIENTS,
       authToken: env.GEYSER_WS_AUTH_TOKEN,
-      logger
+      logger,
+      ...(streamInterestWatch
+        ? {
+            interestWatch: streamInterestWatch,
+            interestWatchTtlMs: env.GEYSER_INTEREST_WATCH_TTL_MS,
+            ...(env.GEYSER_INTEREST_WATCH_REFRESH_MS !== undefined
+              ? { interestWatchRefreshMs: env.GEYSER_INTEREST_WATCH_REFRESH_MS }
+              : {})
+          }
+        : {})
     })
   : undefined;
 
@@ -101,6 +137,8 @@ const shutdown = async () => {
   ingestor?.stop();
   await eventBus.unsubscribe();
   await eventBus.close();
+  await interestPublisherGate.close();
+  await streamInterestWatch?.close();
   if (streamServer) {
     await streamServer.stop();
   }

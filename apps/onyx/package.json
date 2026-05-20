@@ -14,6 +14,7 @@
   "dependencies": {
     "@darkflow/db": "*",
     "@darkflow/engine": "*",
+    "@darkflow/sync": "*",
     "@darkflow/guardian": "*",
     "@grpc/grpc-js": "^1.8.0",
     "@pythnetwork/pyth-lazer-sdk": "^6.2.2",

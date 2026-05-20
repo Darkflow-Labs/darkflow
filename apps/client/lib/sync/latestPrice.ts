@@ -18,14 +18,22 @@ const getPool = () => {
 
 export const getLatestSolSyncPrice = async (): Promise<number | null> => {
   const pool = getPool();
-  const res = await pool.query<{ price_sol: number }>(
-    `select price_sol
-     from sync.price_latest
-     where mint = $1
-     order by updated_at desc
-     limit 1`,
-    [SOL_MINT],
-  );
-  const price = res.rows[0]?.price_sol;
-  return typeof price === "number" && Number.isFinite(price) && price > 0 ? price : null;
+  try {
+    const res = await pool.query<{ price_sol: number }>(
+      `select price_sol
+       from sync.price_latest
+       where mint = $1
+       order by updated_at desc
+       limit 1`,
+      [SOL_MINT],
+    );
+    const price = res.rows[0]?.price_sol;
+    return typeof price === "number" && Number.isFinite(price) && price > 0 ? price : null;
+  } catch (err) {
+    // 42P01 = undefined_table — sync migrations not applied yet
+    if (err && typeof err === "object" && "code" in err && err.code === "42P01") {
+      return null;
+    }
+    throw err;
+  }
 };

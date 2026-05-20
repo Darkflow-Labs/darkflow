@@ -82,13 +82,12 @@ const BentoSection = () => {
           id="console-heading"
           className="font-heading text-center text-2xl font-semibold tracking-tight sm:text-3xl"
         >
-          Learn the market with one clear workspace
+          Built for decisions when markets move fast
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-muted-foreground sm:text-base">
-          Darkflow keeps your chart, watchlist signals, and assistant thread in
-          one place so you can focus on the setup in front of you. If you are
-          still learning, it helps you read price action step by step without
-          jumping between tabs.
+          We lead with outcomes you feel in every session: less context loss, faster
+          confirmation, and steadier execution. That edge comes from Darkflow&apos;s
+          infrastructure-first platform, surfaced in one focused workspace.
         </p>
 
         <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-6 md:grid-rows-2">
@@ -102,18 +101,17 @@ const BentoSection = () => {
             <Card className="hb-glass flex h-full min-h-[300px] flex-col border-border/60 bg-card/40">
               <CardHeader className="pb-2">
                 <CardTitle className="font-heading text-base">
-                  Research thread
+                  Operator thread
                 </CardTitle>
                 <p className="font-mono text-[11px] text-muted-foreground">
-                  plain-language questions · key levels · guided checks
+                  rapid checks · key levels · execution context
                 </p>
               </CardHeader>
               <CardContent className="flex min-h-0 flex-1 flex-col gap-3 pt-0">
                 <p className="shrink-0 text-sm leading-relaxed text-muted-foreground">
-                  Ask simple questions like where support and resistance are,
-                  whether momentum is building, or what to confirm before you
-                  enter. The thread stays next to your chart so your process is
-                  easier to follow, especially during fast moves.
+                  Run your pre-trade checks in plain language without breaking focus.
+                  The thread keeps levels, momentum, and risk context attached to the
+                  chart so you can act quickly with fewer blind spots.
                 </p>
                 <ResearchThreadMock />
                 <div className="shrink-0 rounded-lg border border-border/50 bg-background/40 p-3 font-mono text-sm leading-relaxed text-foreground/90">
@@ -134,12 +132,12 @@ const BentoSection = () => {
             <Card className="hb-glass flex h-full flex-col overflow-hidden border-border/60 bg-card/40 p-0">
               <CardHeader className="border-b border-border/40 px-4 pb-3 pt-4">
                 <CardTitle className="font-heading text-base">
-                  Chart &amp; context dock
+                  Live context dock
                 </CardTitle>
                 <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                  Your chart and context stay pinned beside the thread, so you
-                  can learn from one consistent view instead of hunting across
-                  multiple windows.
+                  Price action, tape flow, and decision context stay synchronized in
+                  one surface, so you spend time trading instead of reconciling
+                  scattered windows.
                 </p>
               </CardHeader>
               <CardContent className="flex-1 p-3 pt-0">
@@ -158,18 +156,18 @@ const BentoSection = () => {
             <Card className="hb-glass h-full border-border/60 bg-card/40">
               <CardHeader className="pb-2">
                 <CardTitle className="font-heading text-base">
-                  Signals &amp; console rails
+                  Signal reliability rails
                 </CardTitle>
                 <p className="font-mono text-[11px] text-muted-foreground">
-                  scanner highlights · tape feed · focused layout
+                  trusted stream · focused layout · cleaner flow
                 </p>
               </CardHeader>
               <CardContent className="space-y-2 pt-0">
                 <ConsoleRailsSvg />
                 <p className="text-center text-xs leading-relaxed text-muted-foreground">
-                  See what matters in real time with a cleaner layout: signals,
-                  price updates, and context in one flow built for confident
-                  decision-making at any experience level.
+                  Darkflow&apos;s real-time backbone keeps your stream steady under
+                  volatility, so the signals and updates you see are timely and
+                  actionable when it matters most.
                 </p>
               </CardContent>
             </Card>
