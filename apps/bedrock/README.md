@@ -12,7 +12,7 @@ This app is intentionally **RPC-only** (no voting) and optimized as the base lay
 
 Bedrock currently ships:
 
-- RPC-only profile (`--no-voting`, `--full-rpc-api`, `--private-rpc`)
+- RPC-only profile (`--no-voting`, `--no-poh-speed-test`, `--full-rpc-api`, `--private-rpc`)
 - both testnet and mainnet env templates
 
 ## Quick start

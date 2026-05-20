@@ -81,6 +81,10 @@ fi
 if [[ "${BEDROCK_NO_VOTING:-true}" == "true" ]]; then
   args+=(--no-voting)
 fi
+if [[ "${BEDROCK_NO_POH_SPEED_TEST:-true}" == "true" ]]; then
+  # Hidden from default --help; set SOLANA_NO_HIDDEN_CLI_ARGS=1 to list it.
+  args+=(--no-poh-speed-test)
+fi
 if [[ "${BEDROCK_PRIVATE_RPC:-true}" == "true" ]]; then
   args+=(--private-rpc)
 fi
